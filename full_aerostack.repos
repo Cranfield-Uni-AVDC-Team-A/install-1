@@ -82,11 +82,11 @@ repositories:
 #----------------------------------------------------------------------------
 # Simulation
 #----------------------------------------------------------------------------
-  simulation/quadrotor_gazebo_simulator:
+  stack/simulation/quadrotor_gazebo_simulator:
     type: git
     url: https://github.com/GDP-AVDC-Team-A/quadrotor_gazebo_simulator
     version: master
-  simulation/quadrotor_simulator:
+  stack/simulation/quadrotor_simulator:
     type: git
     url: https://github.com/GDP-AVDC-Team-A/quadrotor_simulator
     version: master
@@ -94,15 +94,15 @@ repositories:
 #----------------------------------------------------------------------------
 # Hardware interface
 #----------------------------------------------------------------------------
-  hardware_interface/pixhawk_interface:
+  stack/hardware_interface/pixhawk_interface:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/pixhawk_interface
     version: v5-libeccio
-  hardware_interface/gazebo_interface:
+  stack/hardware_interface/gazebo_interface:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/gazebo_interface
     version: master
-  hardware_interface/tello_interface:
+  stack/hardware_interface/tello_interface:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/tello_interface
     version: master
@@ -304,3 +304,14 @@ repositories:
     url: https://github.com/GDP-AVDC-Team-A/mav_control_rw
     version: master
 
+#----------------------------------------------------------------------------
+# Utilities
+#----------------------------------------------------------------------------
+  utils/config:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/config
+    version: master
+  utils/launchers:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/launchers
+    version: master
