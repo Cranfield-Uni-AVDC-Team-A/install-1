@@ -184,23 +184,51 @@ repositories:
     version: master
 
 #----------------------------------------------------------------------------
-# Applications
+# Projects using Gazebo simulator
 #----------------------------------------------------------------------------
   projects/teleoperation_gazebo:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/teleoperation_gazebo
     version: master
-  projects/basic_mission_f330_pixhawkk:
-    type: git 
-    url: https://github.com/GDP-AVDC-Team-A/basic_mission_f330_pixhawk
-    version: v5-libeccio
   projects/basic_mission_gazebo:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/basic_mission_gazebo
     version: master
+  projects/fast_drone_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/fast_drone_gazebo
+    version: master
+  projects/airplane_inspection_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/airplane_inspection_gazebo
+    version: master   
+  projects/rooms_exploration_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/rooms_exploration_gazebo
+    version: master
+  projects/warehouse_inventory_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/warehouse_inventory_gazebo
+    version: master
+  projects/bridge_inspection_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/bridge_inspection_gazebo
+    version: master
+  projects/tower_inspection_gazeb:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/tower_inspection_gazeb
+    version: master
+
+#----------------------------------------------------------------------------
+# Projects using Quadrotor Simulator
+#----------------------------------------------------------------------------
   projects/basic_mission_quadrotor_simulator:
     type: git 
-    url: https://bitbucket.org/visionaerialrobotics/basic_mission_quadrotor_simulator
+    url: https://github.com/GDP-AVDC-Team-A/basic_mission_quadrotor_simulator
+    version: master
+  projects/teleoperation_quadrotor_simulator:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/teleoperation_quadrotor_simulator
     version: master
   projects/behavior_tree_quadrotor_simulator:
     type: git 
@@ -208,24 +236,17 @@ repositories:
     version: master
 
 #----------------------------------------------------------------------------
-# Example applications
+# Projects using Ryze DJI Tello
 #----------------------------------------------------------------------------
-  projects/airplane_inspection_gazebo:
+  projects/behavior_tree_tello:
     type: git 
-    url: https://bitbucket.org/visionaerialrobotics/airplane_inspection_gazebo
-    version: master   
-  projects/rooms_exploration_gazebo:
-    type: git 
-    url: https://bitbucket.org/visionaerialrobotics/airplane_inspection_gazebo
+    url: https://github.com/GDP-AVDC-Team-A/behavior_tree_tello
     version: master
-  projects/warehouse_inventory_gazebo:
+  projects/visual_commands_tello:
     type: git 
-    url: https://bitbucket.org/visionaerialrobotics/warehouse_inventory_gazebo
+    url: https://github.com/GDP-AVDC-Team-A/visual_commands_tello
     version: master
-  projects/fast_drone_gazebo:
-    type: git 
-    url: https://github.com/GDP-AVDC-Team-A/fast_drone_gazebo
-    version: master
+
 
 #----------------------------------------------------------------------------
 # Deprecated libraries
