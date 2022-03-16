@@ -15,9 +15,9 @@ repositories:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/basic_quadrotor_behaviors
     version: master
-  stack/behaviors/behavior_packages/localization_with_simple_ekf:
+  stack/behaviors/behavior_packages/multi_sensor_fusion:
     type: git 
-    url: https://github.com/GDP-AVDC-Team-A/localization_with_simple_ekf
+    url: https://github.com/GDP-AVDC-Team-A/multi_sensor_fusion.git
     version: master
   stack/behaviors/behavior_packages/quadrotor_motion_with_pid_control:
     type: git 
@@ -51,10 +51,6 @@ repositories:
     type: git 
     url: https://github.com/GDP-AVDC-Team-A/belief_manager
     version: master
-  stack/belief_management/swarm_belief_updater:
-    type: git 
-    url: https://github.com/GDP-AVDC-Team-A/swarm_belief_updater.git
-    version: v5-libeccio
     
 #----------------------------------------------------------------------------
 # Mission control
@@ -174,10 +170,6 @@ repositories:
     type: git 
     url: https://bitbucket.org/visionaerialrobotics/eigen_catkin
     version: master
-  stack/libraries/glog_catkin:
-    type: git 
-    url: https://github.com/GDP-AVDC-Team-A/glog_catkin
-    version: v5-libeccio
   stack/libraries/lib_levmar-2.6:
     type: git 
     url: https://bitbucket.org/visionaerialrobotics/lib_levmar-2.6
