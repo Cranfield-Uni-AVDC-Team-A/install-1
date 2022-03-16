@@ -1,0 +1,293 @@
+repositories:
+
+#----------------------------------------------------------------------------
+# Messages
+#----------------------------------------------------------------------------
+  stack/common/aerostack_msgs:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/aerostack_msgs
+    version: master
+
+#----------------------------------------------------------------------------
+# Behaviors
+#----------------------------------------------------------------------------
+  stack/behaviors/behavior_packages/basic_quadrotor_behaviors:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/basic_quadrotor_behaviors
+    version: master
+  stack/behaviors/behavior_packages/localization_with_simple_ekf:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/localization_with_simple_ekf
+    version: master
+  stack/behaviors/behavior_packages/quadrotor_motion_with_pid_control:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/quadrotor_motion_with_pid_control
+    version: master
+  stack/behaviors/behavior_packages/quadrotor_motion_with_platform_control:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/quadrotor_motion_with_platform_control
+    version: master
+  stack/behaviors/behavior_packages/swarm_interaction:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/swarm_interaction
+    version: master
+  stack/behaviors/single_behaviors/behavior_inform_operator:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_inform_operator
+    version: master
+  stack/behaviors/single_behaviors/behavior_request_operator_assistance:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_request_operator_assistance
+    version: master
+
+#----------------------------------------------------------------------------
+# Belief updaters
+#----------------------------------------------------------------------------
+  stack/belief_management/belief_updater:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/belief_updater.git
+    version: master
+  stack/belief_management/belief_manager:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/belief_manager
+    version: master
+  stack/belief_management/swarm_belief_updater:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/swarm_belief_updater.git
+    version: v5-libeccio
+    
+#----------------------------------------------------------------------------
+# Mission control
+#----------------------------------------------------------------------------
+  stack/mission_control/python_based_mission_interpreter:
+     type: git 
+     url: https://github.com/GDP-AVDC-Team-A/python_based_mission_interpreter
+     version: master
+  stack/mission_control/safety_monitor:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/safety_monitor
+    version: master
+  stack/mission_control/recovery_manager :
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/recovery_manager
+    version: master
+#----------------------------------------------------------------------------
+# Behavior Management / Executive
+#----------------------------------------------------------------------------
+  stack/behavior_management/behavior_manager:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_manager
+    version: master
+  stack/common/behavior_execution_controller:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_execution_controller
+    version: master
+
+#----------------------------------------------------------------------------
+# Simulation
+#----------------------------------------------------------------------------
+  simulation/quadrotor_gazebo_simulator:
+    type: git
+    url: https://github.com/GDP-AVDC-Team-A/quadrotor_gazebo_simulator
+    version: master
+  simulation/quadrotor_simulator:
+    type: git
+    url: https://github.com/GDP-AVDC-Team-A/quadrotor_simulator
+    version: master
+    
+#----------------------------------------------------------------------------
+# Hardware interface
+#----------------------------------------------------------------------------
+  hardware_interface/pixhawk_interface:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/pixhawk_interface
+    version: v5-libeccio
+  hardware_interface/gazebo_interface:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/gazebo_interface
+    version: master
+  hardware_interface/tello_interface:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/tello_interface
+    version: master
+
+#----------------------------------------------------------------------------
+# User interface
+#----------------------------------------------------------------------------
+  stack/user_interface/alphanumeric_viewer:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/alphanumeric_viewer
+    version: master
+  stack/user_interface/keyboard_teleoperation_with_pid_control:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/keyboard_teleoperation_with_pid_control
+    version: master
+  stack/user_interface/map_viewer_2d:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/map_viewer_2d
+    version: master 
+  stack/user_interface/behavior_execution_viewer:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_execution_viewer
+    version: master
+  stack/user_interface/belief_memory_viewer:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/belief_memory_viewer
+    version: master 
+  stack/user_interface/behavior_tree_editor:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_tree_editor
+    version: master 
+  stack/user_interface/behavior_tree_interpreter:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_tree_interpreter
+    version: master 
+
+#----------------------------------------------------------------------------
+# Libraries
+#----------------------------------------------------------------------------
+  stack/common/robot_process:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/robot_process
+    version: master
+  stack/libraries/lib_cvgekf:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_cvgekf
+    version: master
+  stack/libraries/lib_cvgutils:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_cvgutils
+    version: master
+  stack/libraries/mav_comm:
+    type: git
+    url: https://bitbucket.org/visionaerialrobotics/mav_comm
+    version: master
+  stack/libraries/pugixml:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/pugixml
+    version: master   
+  stack/libraries/catkin_simple:
+    type: git
+    url: https://bitbucket.org/visionaerialrobotics/catkin_simple
+    version: master
+  stack/libraries/eigen_catkin:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/eigen_catkin
+    version: master
+  stack/libraries/glog_catkin:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/glog_catkin
+    version: v5-libeccio
+  stack/libraries/lib_levmar-2.6:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_levmar-2.6
+    version: master
+  stack/libraries/lib_newmat11:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_newmat11
+    version: master
+  stack/libraries/ros_utils_lib:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/ros_utils_lib
+    version: master
+
+#----------------------------------------------------------------------------
+# Applications
+#----------------------------------------------------------------------------
+  projects/teleoperation_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/teleoperation_gazebo
+    version: master
+  projects/basic_mission_f330_pixhawkk:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/basic_mission_f330_pixhawk
+    version: v5-libeccio
+  projects/basic_mission_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/basic_mission_gazebo
+    version: master
+  projects/basic_mission_quadrotor_simulator:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/basic_mission_quadrotor_simulator
+    version: master
+  projects/behavior_tree_quadrotor_simulator:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/behavior_tree_quadrotor_simulator
+    version: master
+
+#----------------------------------------------------------------------------
+# Example applications
+#----------------------------------------------------------------------------
+  projects/airplane_inspection_gazebo:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/airplane_inspection_gazebo
+    version: master   
+  projects/rooms_exploration_gazebo:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/airplane_inspection_gazebo
+    version: master
+  projects/warehouse_inventory_gazebo:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/warehouse_inventory_gazebo
+    version: master
+  projects/fast_drone_gazebo:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/fast_drone_gazebo
+    version: master
+
+#----------------------------------------------------------------------------
+# Deprecated libraries
+#----------------------------------------------------------------------------
+  stack_deprecated/common/drone_process:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/drone_process
+    version: master
+  stack_deprecated/common/dronemoduleinterfaceros:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/dronemoduleinterfaceros
+    version: master
+  stack_deprecated/common/dronemoduleros:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/dronemoduleros
+    version: master
+  stack_deprecated/common/dronemsgsros:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/dronemsgsros
+    version: master
+  stack_deprecated/common/lib_cvgthread:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_cvgthread
+    version: master
+  stack_deprecated/common/lib_pose:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_pose
+    version: master
+  stack_deprecated/common/lib_pugixml:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/lib_pugixml
+    version: master
+  stack_deprecated/common/mav_comm_rotors:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/mav_comm_rotors
+    version: master
+  stack_deprecated/common/referenceframes:
+    type: git 
+    url: https://bitbucket.org/visionaerialrobotics/referenceframes
+    version: master
+  stack_deprecated/logging/droneloggerrosmodule:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/droneloggerrosmodule
+    version: master
+  stack_deprecated/logging/lib_cvglogger:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/lib_cvglogger
+    version: master
+  stack_deprecated/logging/lib_cvgloggerros:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/lib_cvgloggerros
+    version: master
+  stack_deprecated/motor_system/mav_control_rw:
+    type: git 
+    url: https://github.com/GDP-AVDC-Team-A/mav_control_rw
+    version: master
+
