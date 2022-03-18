@@ -1,0 +1,9 @@
+Header header
+int8 drone_id
+int8 mode
+int8 type
+drone_geometry drone_geometry
+int8 battery
+int8 drone_soh
+score score
+task task
