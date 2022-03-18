@@ -1,7 +1,31 @@
+
+## NOT Aerostack
+
+This fork is not the aerostack dev fork, this is the simplified version made by Nick.
+
+This is still massively work in progress, there will be mad bugs everywhere. If you find one please let me know.
+
+To use the code:
+Clone the repo
+
+mkdir -p ~/gdp/src && cd gdp && catkin_make
+
+Then copy the src folder from the cloned gdp folder to replace the one in the gdp dir you have just made.
+
+In the gdp dir run catkin_make again.
+
+To test:
+cd gdp && source devel/setup.bash
+roscore >/dev/null 2>&1 & 
+python src/behaviour/scripts/stateheartbeat.py & rostopic echo Heartbeats
+
+You should see an output with drone heartbeats.
+
+
+
+
 ## Aerostack
-
 Please visit the [Aerostack Wiki](https://github.com/aerostack/install/wiki) for a complete documentation.
-
 
 To install our customized AeroStack Core Code, please follow the steps below:
 

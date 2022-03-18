@@ -5,9 +5,21 @@ This fork is not the aerostack dev fork, this is the simplified version made by 
 
 This is still massively work in progress, there will be mad bugs everywhere. If you find one please let me know.
 
-To use it, download, copy the gdp ws into your ubuntu user files, delete build and devel from within.
+To use the code:
+Clone the repo
 
-Navigate to the gdp dir from a terminal and run catkin_make.
+mkdir -p ~/gdp/src && cd gdp && catkin_make
+
+Then copy the src folder from the cloned gdp folder to replace the one in the gdp dir you have just made.
+
+In the gdp dir run catkin_make again.
+
+To test:
+cd gdp && source devel/setup.bash
+roscore >/dev/null 2>&1 &
+python src/behaviour/scripts/stateheartbeat.py & rostopic echo Heartbeats
+
+You should see an output with drone heartbeats.
 
 
 
