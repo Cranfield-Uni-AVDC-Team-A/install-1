@@ -9,39 +9,39 @@ To use the code:
 Clone the repo
 
 
-```$mkdir -p ~/gdp/src && cd gdp && catkin_make```
+```mkdir -p ~/gdp/src && cd gdp && catkin_make```
 
 
 Then copy the src folder from the cloned gdp folder to replace the one in the gdp dir you have just made.
 
-In the gdp dir run ```$catkin_make``` again.
+In the gdp dir run ```catkin_make``` again.
 
 To test the install worked:
 
 Config Steps: 
 {
 
-```$cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix```
+```cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix```
 
-```$chmod +x *.py```
+```chmod +x *.py```
 
-```$cd ~/ && source gdp/devel/setup.bash```
+```cd ~/ && source gdp/devel/setup.bash```
 
 }
 
 Run Steps:
 {
 
-```$roslaunch behaviour main_launch.launch```
+```roslaunch behaviour main_launch.launch```
 
 }
 
 Test Steps (In a New Terminal...):
 {
 
-```$source gdp/devel/setup.bash```
+```source gdp/devel/setup.bash```
 
-```$ echo Members```
+```echo Members```
 
 }
 
@@ -50,7 +50,7 @@ You should see an output with swarm drone member heartbeats.
 If you want the config steps to be added to your .bashrc file so that it loads in every new terminal then use:
 In a New Terminal...
 
-```$sudo bash gdp/src/bin/bashappend.sh```
+```sudo bash gdp/src/bin/bashappend.sh```
 
 
 To check it's worked, either manually check your bashrc file or open a new terminal and check that the output is printed at the top.
