@@ -9,12 +9,12 @@ To use the code:
 Clone the repo
 
 
-```mkdir -p ~/gdp/src && cd gdp && catkin_make```
+```mkdir -p ~/gdp/src && cd gdp && catkin build```
 
 
 Then copy the src folder from the cloned gdp folder to replace the one in the gdp dir you have just made.
 
-In the gdp dir run ```catkin_make``` again.
+In the gdp dir run ```catkin build``` again.
 
 Some required dependancies:
 
@@ -22,7 +22,7 @@ Some required dependancies:
 
 ```sudo apt-get install python3-scipy```
 
-```sudo apt-get install python3-geopy```
+```sudo apt-get install -y python-geopy```
 
 To test the install worked:
 
