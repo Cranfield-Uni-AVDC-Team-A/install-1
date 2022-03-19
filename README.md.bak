@@ -14,11 +14,7 @@ Then copy the src folder from the cloned gdp folder to replace the one in the gd
 
 In the gdp dir run catkin_make again.
 
-cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix
-chmod +x *.py
-cd ~/ && source gdp/devel/setup.bash
-
-To test operation:
+To test the install worked:
 
 Config Steps: 
 {
