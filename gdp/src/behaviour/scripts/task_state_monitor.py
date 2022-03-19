@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 
 from __future__ import print_function
@@ -11,16 +10,13 @@ import geopy.distance
 ############################################################################
 distance_thresh = 2     # distance in m that the targets will be amalgamated
 frequency = 5
-timeout = 1
+timeout = 2
 ############################################################################
 
 rospy.init_node('TaskUpdater', anonymous=True) 
 
-global targetlist_msg
-
 def callback(data):
     global targetlist_msg
-    targetlist_msg = targetlist()
     hb_msg = target()
     hb_msg.id = data.id
     hb_msg.detectorid = data.detectorid
@@ -58,37 +54,30 @@ def callback(data):
                 distance_previous = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000                 
                 if distance_current > distance_previous:
                     break
-        i = i + 1
-        targetlist_msg.targets.append(hb_msg)
+            if i + 1 == len(targetlist_msg.targets):
+                targetlist_msg.targets.append(hb_msg)
+                break
+            i = i + 1
     return (targetlist_msg)
 
 rospy.Subscriber("Targets", target, callback)
 rate = rospy.Rate(frequency)
+
+global targetlist_msg
+targetlist_msg = targetlist()
 while not rospy.is_shutdown():
-    global targetlist_msg
     while (1):
-        try:
-            rospy.wait_for_message("Targets", target, (1/frequency))
-        except rospy.ROSException:
-            pass
         i = 0
+        current_time = rospy.get_time()
         try:
-            current_time = rospy.get_time()
             while i < len(targetlist_msg.targets):
                 if  current_time - targetlist_msg.targets[i].messagetime >= timeout:
                     targetlist_msg.targets.remove(targetlist_msg.targets[i])
                 i = i + 1
-            rate.sleep()
             break
         except:
             break
-
+    rate.sleep()
     pub = rospy.Publisher('Targetlist', targetlist, queue_size=1, latch = True)
-    try:
-        pub.publish(targetlist_msg)
-    except:
-        targetlist_msg = targetlist()
-        pub.publish(targetlist_msg)
-
-
+    pub.publish(targetlist_msg)
 

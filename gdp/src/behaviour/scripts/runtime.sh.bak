@@ -1,0 +1,25 @@
+#!/bin/bash
+echo"##############"
+echo"Cranfield GDP Group A - Drone Swarm Software Launch"
+echo"##############"
+echo"######## CAUTION: THIS IS A TEST BUILD - DO NOT LIVE USE ########"
+echo"##############"
+echo"Navigating to Correct Directory"
+echo"##############"
+cd/gdp
+echo"##############"
+echo"Initalising..."
+echo"##############"
+echo"Converting Dos2Unix..."
+echo"Navigating to dir"
+cd/src/behaviour/scripts
+find . -type f -print0 | xargs -0 dos2unix
+echo"Conversion Successful"
+echo"Marking all files as executable..."
+chmod +x *.py
+echo"chmod Success"
+echo"##############"
+echo"Init Success"
+echo"##############"
+echo"Returning to ROSLAUNCH...
+exit 0

@@ -120,7 +120,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES behaviour
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime scipy
 #  DEPENDS system_lib
 )
 
@@ -184,6 +184,7 @@ scripts/mission_upload.py
 scripts/stateheartbeat.py 
 scripts/stateheartbeat3.py 
 scripts/faketask.py
+scripts/faketask2.py
 scripts/main_runtime.py
 scripts/task_state_monitor.py
 scripts/task_allocation.py
@@ -203,6 +204,13 @@ scripts/area_allocation.py
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
+install(PROGRAMS 
+scripts/runtime.sh
+
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
+)
+
+
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
 # install(TARGETS ${PROJECT_NAME}
@@ -219,11 +227,11 @@ scripts/area_allocation.py
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+ install(FILES
+    launch/main_launch.launch
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ )
+
 
 #############
 ## Testing ##

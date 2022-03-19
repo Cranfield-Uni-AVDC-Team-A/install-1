@@ -14,13 +14,37 @@ Then copy the src folder from the cloned gdp folder to replace the one in the gd
 
 In the gdp dir run catkin_make again.
 
-To test:
-cd gdp && source devel/setup.bash
-roscore >/dev/null 2>&1 & 
-python src/behaviour/scripts/stateheartbeat.py & rostopic echo Heartbeats
+cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix
+chmod +x *.py
+cd ~/ && source gdp/devel/setup.bash
 
-You should see an output with drone heartbeats.
+To test operation:
 
+Config Steps: 
+{
+cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix
+chmod +x *.py
+cd ~/ && source gdp/devel/setup.bash
+}
+
+Run Steps:
+{
+roslaunch behaviour main_launch.launch
+}
+
+Test Steps (In a New Terminal...):
+{
+source gdp/devel/setup.bash
+rostopic echo Members
+}
+
+You should see an output with swarm drone member heartbeats.
+
+If you want the config steps to be added to your .bashrc file so that it loads in every new terminal then use:
+In a New Terminal...
+sudo bash gdp/src/bin/bashappend.sh
+
+To check it's worked, either manually check your bashrc file or open a new terminal and check that the output is printed at the top.
 
 
 

@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 
 # Service to return the current state of the swarm for use in other nodes.

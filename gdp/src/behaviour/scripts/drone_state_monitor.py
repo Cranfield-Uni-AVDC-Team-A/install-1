@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 
 from __future__ import print_function
@@ -17,9 +16,6 @@ timeout = 2
 ############################################################################
 
 rospy.init_node('MemberUpdater', anonymous=True) 
-
-
-
 
 def callback(data):
     global members_msg

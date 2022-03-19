@@ -1,0 +1,52 @@
+<launch>
+
+	<node 
+	pkg="behaviour" 
+	type="stateheartbeat.py" 
+	name="$(anon stateheartbeat)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="drone_state_monitor.py" 
+	name="$(anon drone_state_monitor)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="param_updater.py" 
+	name="$(anon param_updater)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="swarm_state.py" 
+	name="$(anon swarm_state)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="area_allocation.py" 
+	name="$(anon area_allocation)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="faketask.py" 
+	name="$(anon faketask)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="task_state_monitor.py" 
+	name="$(anon task_state_monitor)" 
+	output="screen">
+	</node>
+	
+</launch>
