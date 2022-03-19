@@ -204,11 +204,10 @@ scripts/area_allocation.py
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-install(PROGRAMS 
-scripts/runtime.sh
+#install(PROGRAMS 
 
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
-)
+#  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
+#)
 
 
 ## Mark libraries for installation

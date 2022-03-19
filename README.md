@@ -16,6 +16,14 @@ Then copy the src folder from the cloned gdp folder to replace the one in the gd
 
 In the gdp dir run ```catkin_make``` again.
 
+Some required dependancies:
+
+```sudo apt-get install dos2unix```
+
+```sudo apt-get install python3-scipy```
+
+```sudo apt-get install python3-geopy```
+
 To test the install worked:
 
 Config Steps: 
