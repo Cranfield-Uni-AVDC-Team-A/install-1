@@ -49,7 +49,7 @@ Test Steps (In a New Terminal...):
 
 ```source gdp/devel/setup.bash```
 
-```echo Members```
+```rostopic echo Members```
 
 }
 
