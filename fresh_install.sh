@@ -11,7 +11,7 @@ echo "-----------------------"
 echo "Updating Ubuntu"
 echo "-----------------------"
 sudo apt update
-sudo apt upgrade
+sudo apt -y upgrade
 echo "-----------------------"
 echo "Installing ROS Melodic"
 echo "-----------------------"
@@ -25,7 +25,6 @@ sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator 
 sudo apt install -y python-rosdep
 sudo rosdep init
 rosdep update
-source ~/.bashrc
 sudo apt-get install -y python-catkin-tools
 
 
@@ -38,7 +37,8 @@ sudo apt-get -y install python-geopy
 echo "-----------------------"
 echo "Setting Up Workspace..."
 echo "-----------------------"
-cp -R  ~/install-1/gdp ~/
+echo mkdir -p ~/gdp/src
+cp -R  ~/install-1/src ~/gdp/src
 
 
 DEPENDENCIES=""
@@ -70,6 +70,8 @@ echo "-----------------------"
 echo "Building"
 echo "-----------------------"
 cd gdp
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+echo source ~/.bashrc
 catkin build
 echo "Built succesfully"
 echo "-----------------------"
