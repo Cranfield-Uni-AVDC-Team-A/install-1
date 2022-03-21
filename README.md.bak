@@ -12,8 +12,7 @@ If you don't have ros already installed:
 
 ```sudo apt install curl # if you haven't already installed curl```
 
-```curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-Installation```
+```curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -```
 
 ```sudo apt update```
 
