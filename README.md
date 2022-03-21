@@ -18,7 +18,7 @@ If you don't have ros already installed:
 
 ```sudo apt upgrade```
 
-```sudo apt install ros-kinetic-desktop-full```
+```sudo apt install ros-melodic-desktop-full```
 
 ```echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc```
 
