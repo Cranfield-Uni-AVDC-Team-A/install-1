@@ -3,11 +3,11 @@
 echo "-----------------------"
 echo "Installing dependancies"
 echo "-----------------------"
-sudo apt-get -y install python-catkin-tools
-sudo apt-get -y install python-catkin-pkg
+sudo apt-get -y install python3-catkin-tools
+sudo apt-get -y install python3-catkin-pkg
 sudo apt-get -y install ros-melodic-roslaunch
 sudo apt-get -y install dos2unix
-sudo apt-get -y install python-scipy
+sudo apt-get -y install python3-scipy
 sudo apt-get -y install python-geopy
 
 DEPENDENCIES=""

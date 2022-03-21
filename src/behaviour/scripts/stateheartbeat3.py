@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 from __future__ import print_function
 import rospy
 from std_msgs.msg import String
@@ -9,12 +9,11 @@ from behaviour.msg import task
 from behaviour.msg import drone_geometry
 from behaviour.msg import drone_hello
 
-
 #######################################
 ### Set Params for This Drone Here: ###
 #######################################
 
-droneID = 1
+droneID = 5
 droneTYPE = 2
 droneMODE = 1
 frequency = 10
@@ -75,7 +74,7 @@ def DRONE_STATE_TEST():
                 task_msg.task_geometry = task_geometry_msg
             except:
                 task_msg.task_id =              -1
-                task_msg.allocated =            0
+                task_msg.allocated =            -1
                 task_msg.type =                 -1
                 task_geometry_msg = task_geometry()
                 task_geometry_msg.lat =         0

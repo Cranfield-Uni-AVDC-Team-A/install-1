@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 
 # Function to get the current state of the drone if available and create a drone object if not
