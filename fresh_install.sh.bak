@@ -48,7 +48,7 @@ echo "-----------------------"
 cd ~/gdp
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-catkin build
+catkin_make
 echo "Built succesfully"
 echo "-----------------------"
 echo "Executing config steps"

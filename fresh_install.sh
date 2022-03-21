@@ -38,8 +38,8 @@ echo "-----------------------"
 echo "Setting Up Workspace..."
 echo "-----------------------"
 
-mkdir -p ~/gdp/src
-cp -R  ~/install-1/src ~/gdp/src
+mkdir -p ~/gdp
+cp -R  ~/install-1/src ~/gdp
 
 
 echo "-----------------------"
