@@ -17,7 +17,10 @@ Clone the repo
 
 ```$ git clone https://github.com/Cranfield-Uni-AVDC-Team-A/install-1.git```
 
-And run
+Extract "gdp" and "install_dependencies.sh" to your user folder.
+
+And run:
+
 ```tr -d '\r' < install_dependencies.sh>unix_install_dependencies.sh```
 
 ``` sudo bash unix_install_dependencies.sh```
