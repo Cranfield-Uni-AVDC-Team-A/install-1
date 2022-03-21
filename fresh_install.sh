@@ -37,7 +37,8 @@ sudo apt-get -y install python-geopy
 echo "-----------------------"
 echo "Setting Up Workspace..."
 echo "-----------------------"
-echo mkdir -p ~/gdp/src
+
+mkdir -p ~/gdp/src
 cp -R  ~/install-1/src ~/gdp/src
 
 
