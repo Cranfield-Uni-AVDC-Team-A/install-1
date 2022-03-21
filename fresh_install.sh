@@ -27,7 +27,6 @@ sudo rosdep init
 rosdep update
 sudo apt-get install -y python-catkin-tools
 
-
 sudo apt-get -y install python-catkin-pkg
 sudo apt-get -y install ros-melodic-roslaunch
 sudo apt-get -y install dos2unix
@@ -37,18 +36,16 @@ sudo apt-get -y install python-geopy
 echo "-----------------------"
 echo "Setting Up Workspace..."
 echo "-----------------------"
-
-mkdir -p ~/gdp
-cp -R  ~/install-1/src ~/gdp
-
-
-echo "-----------------------"
-echo "Building"
-echo "-----------------------"
+mkdir -p ~/gdp/src
 cd ~/gdp
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-catkin_make
+echo "-----------------------"
+echo "Building"
+echo "-----------------------"
+catkin build
+cp -R  ~/install-1/src ~/gdp
+catkin build
 echo "Built succesfully"
 echo "-----------------------"
 echo "Executing config steps"
