@@ -22,6 +22,8 @@ If you don't have ros already installed:
 
 ```echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc```
 
+```source ~/.bashrc```
+
 ```sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential```
 
 ```sudo apt install python-rosdep```
@@ -29,8 +31,6 @@ If you don't have ros already installed:
 ```sudo rosdep init```
 
 ```rosdep update```
-
-```source ~/.bashrc```
 
 ```sudo apt-get install python-catkin-tools```
 
