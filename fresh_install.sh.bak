@@ -27,20 +27,19 @@ sudo rosdep init
 rosdep update
 source ~/.bashrc
 sudo apt-get install python-catkin-tools
-echo "-----------------------"
-echo "Setting Up Workspace..."
-echo "-----------------------"
-cp -R  ~/install-1/gdp ~/
 
 
-echo "-----------------------"
-echo "Installing dependancies"
-echo "-----------------------"
 sudo apt-get -y install python-catkin-pkg
 sudo apt-get -y install ros-melodic-roslaunch
 sudo apt-get -y install dos2unix
 sudo apt-get -y install python-scipy
 sudo apt-get -y install python-geopy
+
+echo "-----------------------"
+echo "Setting Up Workspace..."
+echo "-----------------------"
+cp -R  ~/install-1/gdp ~/
+
 
 DEPENDENCIES=""
 apt-get update

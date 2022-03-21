@@ -7,6 +7,8 @@ This is still massively work in progress, there will be mad bugs everywhere. If 
 
 To install onto a fresh Ubuntu:
 
+```$ git clone https://github.com/Cranfield-Uni-AVDC-Team-A/install-1.git```
+
 ```tr -d '\r' < fresh_install.sh>unix_fresh_install.sh```
 
 ``` sudo bash unix_fresh_install.sh```
