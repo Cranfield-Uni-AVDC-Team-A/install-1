@@ -34,25 +34,5 @@ sudo apt-get -y install python-scipy
 sudo apt-get -y install python-geopy
 
 echo "-----------------------"
-echo "Setting Up Workspace..."
-echo "-----------------------"
-mkdir -p ~/gdp/src
-cd ~/gdp
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-echo "-----------------------"
-echo "Building"
-echo "-----------------------"
-catkin build
-cp -R  ~/install-1/src ~/gdp
-catkin build
-echo "Built succesfully"
-echo "-----------------------"
-echo "Executing config steps"
-echo "-----------------------"
-cd src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix
-chmod +x *.py
-cd ~/ && source gdp/devel/setup.bash
-echo "Configured Successfully"
-echo "If you would like config steps added to bashrc then please run 'sudo bash gdp/src/bin/bashappend.sh'"
+echo "Install Complete, please proceed to build steps."
 echo "-----------------------"
