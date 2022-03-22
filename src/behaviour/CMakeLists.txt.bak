@@ -181,7 +181,6 @@ include_directories(
 
 catkin_install_python(PROGRAMS 
 scripts/mission_upload.py
-scripts/mission_state_monitor.py
 scripts/stateheartbeat.py 
 scripts/stateheartbeat3.py 
 scripts/faketask.py

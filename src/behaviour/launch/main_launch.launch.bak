@@ -49,12 +49,4 @@
 	output="screen">
 	</node>
 	
-	<node 
-	pkg="behaviour" 
-	type="mission_state_monitor.py" 
-	name="$(anon mission_state_monitor)" 
-	output="screen">
-	</node>
-	
-	
 </launch>

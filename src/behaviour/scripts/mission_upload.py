@@ -1,49 +1,23 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import rospy
-from std_msgs.msg import String
 from behaviour.msg import mission
+import random
 
-
-
-def MISSION_TEST():
+def missionupload():
     
     pub = rospy.Publisher('Mission', mission, queue_size=1)
-    rospy.init_node("Mission_Updater", anonymous=True)
-    rate = rospy.Rate(0.3)
-    rospy.loginfo("Step 1")
-    while not rospy.is_shutdown():
-        mission_msg = mission()
-        mission_msg.points = 1
-        mission_msg.lat1 = 1
-        mission_msg.lat2 = 1
-        mission_msg.lat3 = 1
-        mission_msg.lat4 = 1
-        mission_msg.lat5 = 1
-        mission_msg.lat6 = 1
-        mission_msg.lat7 = 1
-        mission_msg.lat8 = 1
-        mission_msg.lon1 = 1
-        mission_msg.lon2 = 1
-        mission_msg.lon3 = 1
-        mission_msg.lon4 = 1
-        mission_msg.lon5 = 1
-        mission_msg.lon6 = 1
-        mission_msg.lon7 = 1
-        mission_msg.lon8 = 1
-        mission_msg.alt1 = 1
-        mission_msg.alt2 = 1
-        mission_msg.alt3 = 1
-        mission_msg.alt4 = 1
-        mission_msg.alt5 = 1
-        mission_msg.alt6 = 1
-        mission_msg.alt7 = 1
-        mission_msg.alt8 = 1
-        pub.publish(mission_msg)
-        rate.sleep()
+    rospy.init_node("Fake_Mission", anonymous=True)
+    mission_msg = mission()
+    mission_msg.npoints = 2
+    mission_msg.lat = [52.06688046891671, 52.06670194104023, 52.06669981570283, 52.06688049328314]
+    mission_msg.lon = [-0.6336844349831279, -0.6336786728635458, -0.6329491885016963, -0.6329496307356894]
+    mission_msg.alt = [10, 10, 15, 5]
+    pub.publish(mission_msg)
 
 if __name__ == '__main__':
     try:
-        MISSION_TEST()
+        missionupload()
     except rospy.ROSInterruptException:
         pass
