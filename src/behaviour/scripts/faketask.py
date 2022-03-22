@@ -23,7 +23,6 @@ def targetbeat():
         target_msg.alt = 2 + (0.5 * random.random())
         target_msg.clas = 1
         target_msg.confidence = random.random()
-        #print (target_msg.id)
         pub.publish(target_msg)
         rate.sleep()
 if __name__ == '__main__':

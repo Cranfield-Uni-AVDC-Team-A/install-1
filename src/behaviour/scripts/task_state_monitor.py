@@ -37,17 +37,14 @@ def callback(data):
             if targetlist_msg.targets[i].id == data.id:
                 targetlist_msg.targets[i] = (hb_msg)
                 break
-
             coordsnew = (data.lat, data.lon)
             coordsold = (targetlist_msg.targets[i].lat,targetlist_msg.targets[i].lon)
             distance = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000
             if distance > distance_thresh:
                 break
-
             if not targetlist_msg.targets[i].detectorid == data.detectorid:
                 if targetlist_msg.targets[i].detectortype == 2 and data.detectortpye == 1:
                     break
-
                 coorddrone = (rospy.get_param("lat_%s"%data.detectorid),rospy.get_param("lon_%s"%data.detectorid))
                 coordtarget = (data.lat,data.lon)
                 distance_current = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000 

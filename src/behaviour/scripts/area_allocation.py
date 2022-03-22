@@ -72,7 +72,6 @@ def handle_area_req(a):
     num_mon = 0
     n_drones = rospy.get_param("n_drones")
     i = 0
-    #print (n_drones[i])
     while i < len(n_drones):
         drone_type = rospy.get_param("drone_type_%s" % n_drones[i])
         drone_mode = rospy.get_param("drone_mode_%s" % n_drones[i])

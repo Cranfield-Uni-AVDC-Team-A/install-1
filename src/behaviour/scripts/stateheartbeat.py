@@ -15,9 +15,15 @@ from behaviour.msg import drone_hello
 
 droneID = 1
 droneTYPE = 2
-droneMODE = 1
 frequency = 10
 
+#######################################
+### Drone Mode inits to 0 and should###
+### be updated by the GNC team when ###
+### the drone has finished calibrating#
+### and it is ready to fly. I.e. it ###
+### has gotten a gps lock and has   ###
+### updated it's params as such.    ###
 #######################################
 
 rospy.set_param("thisdroneID", droneID)
@@ -76,7 +82,7 @@ def DRONE_STATE_TEST():
             rate.sleep()
         else:
             drone_state_msg.type = droneTYPE
-            drone_state_msg.mode = droneMODE
+            drone_state_msg.mode = 0
             drone_state_msg.battery = 1
             drone_state_msg.drone_soh = 0
             drone_geometry_msg = drone_geometry()
