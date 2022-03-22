@@ -49,4 +49,19 @@
 	output="screen">
 	</node>
 	
+	<node 
+	pkg="behaviour" 
+	type="mission_state_monitor.py" 
+	name="$(anon mission_state_monitor)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="target_param_updater.py" 
+	name="$(anon target_param_updater)" 
+	output="screen">
+	</node>
+	
+	
 </launch>

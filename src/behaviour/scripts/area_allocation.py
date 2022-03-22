@@ -32,16 +32,9 @@ def handle_area_req(a):
     # get the mission items
     #####################################
     # Uncomment this block for final build
-    #lats.append (rospy.get_param("missionlat1"))
-    #lats.append (rospy.get_param("missionlat2"))
-    #lats.append (rospy.get_param("missionlat3"))
-    #lats.append (rospy.get_param("missionlat4"))
-    #latcur (rospy.get_param("gcslat"))
-    #lons.append (rospy.get_param("missionlon1"))
-    #lons.append (rospy.get_param("missionlon2"))
-    #lons.append (rospy.get_param("missionlon3"))
-    #lons.append (rospy.get_param("missionlon4"))
-    #loncur (rospy.get_param("gcslon"))
+    #lats = rospy.get_param("mission_points_lats")
+    #lons = rospy.get_param("mission_points_lons")
+    #alts = rospy.get_param("mission_points_alts")
     #####################################
 
     #####################################

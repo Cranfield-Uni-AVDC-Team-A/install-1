@@ -6,4 +6,5 @@ float64 messagetime
 drone_geometry drone_geometry
 int8 battery
 int8 drone_soh
+score score
 task task

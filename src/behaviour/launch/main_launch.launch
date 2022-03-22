@@ -56,5 +56,19 @@
 	output="screen">
 	</node>
 	
+	<node 
+	pkg="behaviour" 
+	type="target_param_updater.py" 
+	name="$(anon target_param_updater)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="task_allocation.py" 
+	name="$(anon task_allocation)" 
+	output="screen">
+	</node>
+	
 	
 </launch>

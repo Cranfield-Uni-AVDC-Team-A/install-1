@@ -1,15 +1,12 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import rospy
 from std_msgs.msg import String
 from behaviour.msg import drone_state
-from behaviour.msg import area_geometry
 from behaviour.msg import task_geometry
-from behaviour.msg import score
 from behaviour.msg import task
 from behaviour.msg import drone_geometry
 from behaviour.msg import drone_hello
-
 
 
 #######################################
@@ -22,7 +19,6 @@ droneMODE = 1
 frequency = 10
 
 #######################################
-
 
 rospy.set_param("thisdroneID", droneID)
 rospy.set_param("thisdroneTYPE", droneTYPE)
@@ -56,16 +52,6 @@ def DRONE_STATE_TEST():
             drone_state_msg.drone_geometry = drone_geometry_msg
             # Second set are situational dependant and so might not be always set on init.
             # Check if they are set and if not, init to default values.
-            score_msg = score()
-            try:
-                score_msg.drone_id =            rospy.get_param("scoredroneid_%s" %droneID)
-                score_msg.task_id =             rospy.get_param("scoretaskid_%s" %droneID)
-                score_msg.score =               rospy.get_param("score_%s" %droneID)
-            except:
-                score_msg.drone_id =            0
-                score_msg.task_id =             0
-                score_msg.score =               0
-            drone_state_msg.score = score_msg
             task_msg = task()
             try:
                 task_msg.task_id =              rospy.get_param("taskid_%s" %droneID)
@@ -78,7 +64,7 @@ def DRONE_STATE_TEST():
                 task_msg.task_geometry = task_geometry_msg
             except:
                 task_msg.task_id =              -1
-                task_msg.allocated =            -1
+                task_msg.allocated =            0
                 task_msg.type =                 -1
                 task_geometry_msg = task_geometry()
                 task_geometry_msg.lat =         0
@@ -101,11 +87,6 @@ def DRONE_STATE_TEST():
             drone_geometry_msg.roll = 0
             drone_geometry_msg.pitch = 0
             drone_state_msg.drone_geometry = drone_geometry_msg
-            score_msg = score()
-            score_msg.drone_id = 0
-            score_msg.task_id = 0
-            score_msg.score = 0
-            drone_state_msg.score = score_msg
             pub.publish(drone_state_msg)
             rate.sleep()
 

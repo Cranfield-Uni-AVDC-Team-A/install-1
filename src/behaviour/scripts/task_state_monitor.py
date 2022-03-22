@@ -27,6 +27,8 @@ def callback(data):
     hb_msg.clas = data.clas
     hb_msg.confidence = data.confidence
     hb_msg.messagetime = rospy.get_time()
+    if rospy.has_param("target_allocatedid_%s_%s" %(int(data.id), int(str(data.id).split('.')[1]))):
+        hb_msg.allocatedid = rospy.get_param("target_allocatedid_%s_%s"%(int(data.id), int(str(data.id).split('.')[1])))
     if not targetlist_msg.targets:
         targetlist_msg.targets.append(hb_msg)
     else:
@@ -63,6 +65,32 @@ def callback(data):
 rospy.Subscriber("Targets", target, callback)
 rate = rospy.Rate(frequency)
 
+def param_clean(ID, point):
+
+    param_id = "target_id_%s_%s" %(ID, point)
+    print (param_id)
+    rospy.delete_param( param_id )
+    param_id = "target_detectorid_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_id_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_detectorid_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_detectortype_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_lat_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_lon_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_alt_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_clas_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    param_id = "target_confidence_%s_%s" %(ID, point)
+    rospy.delete_param( param_id )
+    # Also added allocatedid
+    return
+
 global targetlist_msg
 targetlist_msg = targetlist()
 while not rospy.is_shutdown():
@@ -72,7 +100,11 @@ while not rospy.is_shutdown():
         try:
             while i < len(targetlist_msg.targets):
                 if  current_time - targetlist_msg.targets[i].messagetime >= timeout:
+                    targid = int(targetlist_msg.targets[i].id)
+                    pointid =  int(str(targetlist_msg.targets[i].id).split('.')[1])
                     targetlist_msg.targets.remove(targetlist_msg.targets[i])
+                    print(targid, pointid)
+                    execute = param_clean(targid, pointid)
                 i = i + 1
             break
         except:

@@ -6,7 +6,6 @@ from behaviour.msg import members
 from behaviour.msg import drone_hello
 from behaviour.msg import drone_state
 from behaviour.msg import task_geometry
-from behaviour.msg import score
 from behaviour.msg import task
 from behaviour.msg import drone_geometry
 
@@ -26,7 +25,6 @@ def callback(data):
     hb_msg.drone_geometry = data.drone_geometry
     hb_msg.battery = data.battery
     hb_msg.drone_soh = data.drone_soh
-    hb_msg.score = data.score
     hb_msg.task = data.task
     hb_msg.messagetime = rospy.get_time()
     if not members_msg.drone_states:
