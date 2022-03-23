@@ -63,5 +63,18 @@
 	output="screen">
 	</node>
 	
+	<node 
+	pkg="behaviour" 
+	type="task_allocation.py" 
+	name="$(anon task_allocation)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="complete_monitor.py" 
+	name="$(anon complete_monitor)" 
+	output="screen">
+	</node>
 	
 </launch>

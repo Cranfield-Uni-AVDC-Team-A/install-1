@@ -70,5 +70,18 @@
 	output="screen">
 	</node>
 	
+	<node 
+	pkg="behaviour" 
+	type="complete_monitor.py" 
+	name="$(anon complete_monitor)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="main_runtime.py" 
+	name="$(anon main_runtime)" 
+	output="screen">
+	</node>
 	
 </launch>

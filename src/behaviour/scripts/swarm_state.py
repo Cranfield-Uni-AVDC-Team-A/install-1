@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 
-# Service to return the current state of the swarm for use in other nodes.
-
-# Handle request
-
-# Get params for current state
-
-# Make new data for current states
-
-# Return the package
-
 from __future__ import print_function
 from behaviour.srv import swarmstatereq
 from behaviour.srv import swarmstatereqResponse
@@ -22,7 +12,6 @@ def handle_swarm_state_req(a):
     num_mon = 0
     num_track = 0
     num_avail = 0
-    #print(rospy.get_param("n_drones"))
     n_drones = rospy.get_param("n_drones")
     i = 0
     while i < len(n_drones):

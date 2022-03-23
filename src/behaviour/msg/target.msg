@@ -7,5 +7,6 @@ float64 lat
 float64 lon
 float32 alt
 int8 allocatedid
+int8 search
 int8 clas
 float32 confidence

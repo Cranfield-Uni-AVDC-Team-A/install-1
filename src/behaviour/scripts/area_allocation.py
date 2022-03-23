@@ -13,15 +13,11 @@ from behaviour.srv import areareq
 from behaviour.msg import swarmstate
 import geopy.distance
 
-
-
 def swarm_state_client():
     rospy.wait_for_service('swarm_state')
     swarmreq = rospy.ServiceProxy('swarm_state', swarmstatereq)
     resp = swarmreq(1)
     return resp.swarmstate.available_track
-
-
 
 def handle_area_req(a):
 

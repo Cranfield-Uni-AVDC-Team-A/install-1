@@ -74,6 +74,7 @@ find_package(catkin REQUIRED COMPONENTS
    cleanreq.srv
    areareq.srv
    taskreq.srv
+   compreq.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -196,6 +197,7 @@ scripts/stateheartbeat2.py
 scripts/param_updater.py
 scripts/swarm_state.py 
 scripts/target_param_updater.py
+scripts/complete_monitor.py
 scripts/swarmstateclienttest.py 
 scripts/area_allocation.py
  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

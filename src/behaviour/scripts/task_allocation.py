@@ -56,6 +56,7 @@ def handle_task_req(targetid):
                 rospy.set_param("tasklat_%s"    %winner.drone_id   , targetlat)
                 rospy.set_param("tasklon_%s"    %winner.drone_id   , targetlon)
                 rospy.set_param("taskalt_%s"    %winner.drone_id   , targetalt)
+                rospy.set_param("drone_mode_%s"    %winner.drone_id   , 2)
                 rospy.set_param("target_allcoated_%s"%tarid         , winner.drone_id)
                 rospy.Rate.sleep(1)
             except:

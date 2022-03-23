@@ -9,8 +9,8 @@ import geopy.distance
 
 ############################################################################
 distance_thresh = 2     # distance in m that the targets will be amalgamated
-frequency = 5
-timeout = 2
+frequency = 5           # frequency that the topic is published
+timeout = 15            # timeout before a "lost" target is removed
 ############################################################################
 
 rospy.init_node('TaskUpdater', anonymous=True) 
@@ -25,6 +25,7 @@ def callback(data):
     hb_msg.lon = data.lon
     hb_msg.alt = data.alt
     hb_msg.clas = data.clas
+    hb_msg.search = data.search
     hb_msg.confidence = data.confidence
     hb_msg.messagetime = rospy.get_time()
     if rospy.has_param("target_allocatedid_%s_%s" %(int(data.id), int(str(data.id).split('.')[1]))):
