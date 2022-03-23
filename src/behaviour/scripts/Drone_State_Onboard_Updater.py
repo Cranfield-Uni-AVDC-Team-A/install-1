@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 ##########################
 #DEPRECATED
 ##########################

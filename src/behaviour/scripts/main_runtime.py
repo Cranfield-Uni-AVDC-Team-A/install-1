@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 ############################
 # Imports
 ############################
@@ -25,16 +30,20 @@ track_check_freq = 2        # Loop rate for the state checking for tracking dron
 ####################################################################################################################################
 
 ############################
-# ROS Inits
-############################
-rospy.init_node('main')
-meID = rospy.get_param("thisdroneID")
-
-############################
 # Global Params
 ############################
 global Target_list
 global unallocated_ids
+
+############################
+# Inits
+############################
+rospy.init_node('main')
+meID = rospy.get_param("thisdroneID")
+unallocated_ids = []
+ratemon = rospy.Rate(mon_check_freq)
+ratetrack = rospy.Rate(track_check_freq)
+rate = rospy.Rate(1)
 
 ############################
 # Client Functions
@@ -67,10 +76,11 @@ def task_monitoring_client():
 # Callback Functions
 ############################
 def targetlistcallback(data):
+    global unallocated_ids
     Target_list = data
     unallocated_ids = []
     i = 0
-    while i < len(Target_list.targets):
+    while i < len(data.targets):
         try:
             if not rospy.has_param("target_allocatedid_%s_%s" %(int(data.targets[i].id), int(str(data.targets[i].id).split('.')[1]))):
                 unallocated_ids.append(data.targets[i].id)
@@ -88,8 +98,15 @@ if __name__ == '__main__':
         # Wait for Init
         ############################
         while (1):
-            if rospy.get_param("drone_mode_%s" %meID) != 0:
-                break
+            try:
+                if rospy.get_param("drone_mode_%s" %meID) != 0:
+                    break
+            except:
+                pass
+        ############################
+        # Give time for swarm init
+        ############################
+        rate.sleep()
         ############################################################################################
         # If Monitoring Drone
         ############################################################################################
@@ -127,12 +144,13 @@ if __name__ == '__main__':
                         pass
                     if not rospy.get_param("tasklat_%s"%available[p][0]) == memory:
                         break
-                    rospy.Rate.sleep(1)
-                rospy.Rate.sleep(mon_check_freq)
+                    rate.sleep()
+                ratemon.sleep()
         ############################################################################################
         # If Tracking Drone
         ############################################################################################
         if rospy.get_param("drone_type_%s" %meID) == 2:
+            print("Tracker hit")
             ##########################
             # Tracking Drone Inits
             ##########################
@@ -145,6 +163,7 @@ if __name__ == '__main__':
                 # If in monitoring mode with no unallocated tasks
                 #################################################
                 if rospy.get_param("drone_mode_%s" %meID) == 1 and len(unallocated_ids) == 0:
+                    print("Unallo hit")
                     ######################################
                     # Remember num_avail for task checking
                     ######################################
@@ -152,6 +171,7 @@ if __name__ == '__main__':
                     ##########################
                     # Assign the sub-areas
                     ##########################
+                    print("Area Allo hit")
                     area_allocation_client()
                     while(1):
                         #######################################
@@ -167,10 +187,11 @@ if __name__ == '__main__':
                             break
                         #######################################
                         # Check for target
-                        #######################################                
+                        #######################################   
+                        print (len(unallocated_ids))             
                         if len(unallocated_ids) > 0:
                             break
-                        rospy.Rate.sleep(mon_check_freq)
+                        ratemon.sleep()
                 #################################################
                 # If in monitoring mode with unallocated tasks
                 #################################################
@@ -178,6 +199,8 @@ if __name__ == '__main__':
                     ##########################
                     # Assign Unallocated Task
                     ##########################
+                    print("Task allo hit")
+                    print(unallocated_ids[0])
                     task_allocation_client(unallocated_ids[0]) # Sequential
                     break
                 #################################################
@@ -187,16 +210,16 @@ if __name__ == '__main__':
                     ##########################
                     # Monitor task for completion
                     ##########################
-                    current_target_task_id = rospy.get_param("taskid_%s" %meID)
+                    current_target_task_id = rospy.get_param("task_id_%s" %meID)
                     while(1):
                         completed = task_monitoring_client(current_target_task_id)
                         #########################################
                         # If completed, return to Monitoring Mode
                         #########################################
                         if completed == 1:
-                            rospy.set_param("drone_mode_%s"    %meID   , 1
+                            rospy.set_param("drone_mode_%s"    %meID   , 1)
                             break
-                        rospy.Rate.sleep(track_chcek_freq)
+                        ratetrack.sleep()
                     break              
  
 ############################

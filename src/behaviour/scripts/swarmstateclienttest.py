@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 # test file for the swarm state service
 
 from __future__ import print_function

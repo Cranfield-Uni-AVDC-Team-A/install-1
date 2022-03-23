@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-# test file for the swarm state service
+###################
+#Dev Note for what Params are used
+#
+
 
 from __future__ import print_function
 from scipy.optimize import linear_sum_assignment
@@ -102,9 +105,12 @@ def handle_area_req(a):
     
     # Order of the allocation preserved from available
     p = 0 
-    memory = rospy.get_param("tasklat_%s"%available[p][0])
     try:
-        test = y
+        memory = rospy.get_param("tasklat_%s"%available[p][0])
+    except:
+        memory = 0
+    try:
+        print (y)
     except:
         print("Couldn't get y")
     try:
@@ -113,21 +119,24 @@ def handle_area_req(a):
         prev_segs = -1
     current_segs = len(available)
     rospy.set_param("previous_segments", current_segs)
-
+    rate = rospy.Rate(1)
     while(1):
         i = 0
         try:
+            print("Trying")
             while i < len(y):
                 rospy.set_param ("allocated_%s"%available[i][0] ,int( y[i])             )
+                print (rospy.get_param ("allocated_%s"%available[i][0]))
                 rospy.set_param ("tasktype_%s"%available[i][0]  ,1                      )
                 rospy.set_param ("tasklat_%s"%available[i][0]   ,float(points[y[i]][0]) )
                 rospy.set_param ("tasklon_%s"%available[i][0]   ,float(points[y[i]][1]) )
                 rospy.set_param ("taskalt_%s"%available[i][0]   ,0                      )
                 i = i + 1
-            rospy.Rate.sleep(1)
+            rate.sleep()
         except:
             pass
-        if not rospy.get_param("tasklat_%s"%available[p][0]) == memory:
+        print(rospy.get_param("tasklat_%s"%available[i-1][0]) == memory)
+        if not rospy.get_param("tasklat_%s"%available[i-1][0]) == memory:
             break
         elif current_segs == prev_segs and rospy.get_param("tasklat_%s"%available[p][0]) == memory:
             break

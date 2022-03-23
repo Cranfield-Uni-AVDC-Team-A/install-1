@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 from behaviour.srv import swarmstatereq
 from behaviour.srv import swarmstatereqResponse

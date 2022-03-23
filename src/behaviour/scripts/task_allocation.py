@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 from behaviour.srv import taskreq
 import rospy
@@ -14,6 +19,8 @@ settletime = 2
 
 
 
+
+
 def callback(otherscore):
     if otherscore.task_id == targetID:
         if otherscore.score > winner.score:
@@ -22,26 +29,28 @@ def callback(otherscore):
     return
 
 def handle_task_req(targetid):
-    targetID = targetid
+    print("Called")
+    targetID = targetid.targetid
     meID = rospy.get_param("thisdroneID")
+    rate = rospy.Rate(1/settletime)
     if rospy.get_param("drone_mode_%s" %meID) == 1 and rospy.get_param("drone_type_%s" %meID) == 2:
-        intid = int(targetid)
-        decid =  int(str(targetid).split('.')[1])
+        intid = int(targetID)
+        decid =  int(str(targetID).split('.')[1])
         tarid = "%s_%s"%(intid, decid)
-        tagetlat = rospy.get_param("target_lat_%s" %tarid)
-        tagetlon = rospy.get_param("target_lon_%s" %tarid)
-        tagetalt = rospy.get_param("target_alt_%s" %tarid)
+        targetlat = rospy.get_param("target_lat_%s" %tarid)
+        targetlon = rospy.get_param("target_lon_%s" %tarid)
+        targetalt = rospy.get_param("target_alt_%s" %tarid)
         coordpoint = (targetlat , targetlon)
         coorddrone = (rospy.get_param("lat_%s" %meID), rospy.get_param("lon_%s" %meID))
         distance = (geopy.distance.vincenty(coordpoint, coorddrone).km) * 1000
         myscore = 1/distance * rospy.get_param("drone_battery_%s"%meID)
         score_msg = score()
         score_msg.drone_id = meID
-        score_msg.task_id = targetid
+        score_msg.task_id = targetID
         score_msg.score = myscore
         pub = rospy.Publisher('Scores', score, queue_size=8, latch = True)
         pub.publish(score_msg)
-    rospy.Rate.sleep(1/settletime) # Wait for the Network to settle
+    rate.sleep() # Wait for the Network to settle
     try:
         memory = rospy.get_param("taskid_%s" %winner.drone_id)
     except: # No Drones available to be tasked
@@ -50,14 +59,14 @@ def handle_task_req(targetid):
         return(0)
     while(1): #Make sure task set
             try:
-                rospy.set_param("taskid_%s"     %winner.drone_id    , targetid)
+                rospy.set_param("target_id_%s"     %winner.drone_id    , targetID)
                 rospy.set_param("allocated_%s"  %winner.drone_id    , 0)
                 rospy.set_param("tasktype_%s"   %winner.drone_id   , 2)
                 rospy.set_param("tasklat_%s"    %winner.drone_id   , targetlat)
                 rospy.set_param("tasklon_%s"    %winner.drone_id   , targetlon)
                 rospy.set_param("taskalt_%s"    %winner.drone_id   , targetalt)
                 rospy.set_param("drone_mode_%s"    %winner.drone_id   , 2)
-                rospy.set_param("target_allcoated_%s"%tarid         , winner.drone_id)
+                rospy.set_param("target_allcoatedid_%s"%tarid         , winner.drone_id)
                 rospy.Rate.sleep(1)
             except:
                 pass

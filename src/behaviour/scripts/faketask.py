@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 import rospy
 from std_msgs.msg import String
 from behaviour.msg import target

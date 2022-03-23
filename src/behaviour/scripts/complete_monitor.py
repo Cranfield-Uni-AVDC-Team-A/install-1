@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 from behaviour.msg import targetlist
 from behaviour.srv import compreq

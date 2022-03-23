@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 import rospy
 from behaviour.msg import targetlist
@@ -66,7 +71,6 @@ rate = rospy.Rate(frequency)
 def param_clean(ID, point):
 
     param_id = "target_id_%s_%s" %(ID, point)
-    print (param_id)
     rospy.delete_param( param_id )
     param_id = "target_detectorid_%s_%s" %(ID, point)
     rospy.delete_param( param_id )

@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 import rospy
 from std_msgs.msg import String
@@ -15,7 +21,7 @@ from behaviour.msg import drone_hello
 
 droneID = 1
 droneTYPE = 2
-frequency = 10
+frequency = 1
 
 #######################################
 ### Drone Mode inits to 0 and should###
@@ -60,7 +66,8 @@ def DRONE_STATE_TEST():
             # Check if they are set and if not, init to default values.
             task_msg = task()
             try:
-                task_msg.task_id =              rospy.get_param("taskid_%s" %droneID)
+                task_msg.task_id =              rospy.get_param("task_id_%s" %droneID)
+                task_msg.target_id =            rospy.get_param("target_id_%s" %droneID)
                 task_msg.allocated =            rospy.get_param("allocated_%s" %droneID)
                 task_msg.type =                 rospy.get_param("tasktype_%s" %droneID)
                 task_geometry_msg = task_geometry()

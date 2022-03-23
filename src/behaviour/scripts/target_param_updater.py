@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+###################
+#Dev Note for what Params are used
+#
+
+
 from __future__ import print_function
 import rospy
 from behaviour.msg import target
@@ -26,6 +31,11 @@ def callback(data):
         rospy.set_param( param_id ,        data.targets[i].clas)
         param_id = "target_confidence_%s_%s" %(ID, point)
         rospy.set_param( param_id ,        data.targets[i].confidence)
+        param_id = "target_allcoatedid_%s_%s" %(ID, point)
+        try:
+            rospy.set_param( param_id ,        data.targets[i].allocatedid)
+        except:
+            pass
         i = i +1
     
 def subs():
