@@ -11,11 +11,9 @@ Install any missing dependancies and then you can skip to the build steps.
 
 To install onto a fresh Ubuntu:
 
-```$ git clone https://github.com/Cranfield-Uni-AVDC-Team-A/install-1.git```
+```git clone https://github.com/Cranfield-Uni-AVDC-Team-A/install-1.git```
 
-```cd install-1```
-
-```tr -d '\r' < fresh_install.sh>unix_fresh_install.sh```
+```cd install-1 && tr -d '\r' < fresh_install.sh>unix_fresh_install.sh```
 
 ``` sudo bash unix_fresh_install.sh```
 
