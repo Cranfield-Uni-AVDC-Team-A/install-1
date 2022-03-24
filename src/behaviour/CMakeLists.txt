@@ -195,7 +195,6 @@ scripts/drone_state_monitor.py
 scripts/stateheartbeat2.py 
 scripts/swarm_state.py 
 scripts/complete_monitor.py
-scripts/swarmstateclienttest.py 
 scripts/area_allocation.py
  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
