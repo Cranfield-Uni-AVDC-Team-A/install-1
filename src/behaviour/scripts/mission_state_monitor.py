@@ -6,7 +6,7 @@ from behaviour.msg import mission
 
 def callback(data):
     mission_msg = mission()
-    if data.points < 3:
+    if data.npoints < 3:
         print("Error with minimum points - Mission Rejected.")
         return
     if not data.npoints ==  len (data.lat):

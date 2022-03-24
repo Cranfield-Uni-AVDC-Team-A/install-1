@@ -5,6 +5,10 @@ This fork is not the aerostack dev fork, this is the simplified version made by 
 
 This is still massively work in progress, there will be mad bugs everywhere. If you find one please let me know.
 
+If you already have ubuntu and ros installed, you can check the fresh_install.sh file to see if there are any dependancies that you are missing.
+
+Install any missing dependancies and then you can skip to the build steps.
+
 To install onto a fresh Ubuntu:
 
 ```$ git clone https://github.com/Cranfield-Uni-AVDC-Team-A/install-1.git```

@@ -36,7 +36,7 @@ Config Steps (For when you open a New Terminal):
 
 ```chmod +x *.py```
 
-```cd ~/ && source gdp/devel/setup.bash```
+```cd ~/ && sudo rosdep fix-permissions && source gdp/devel/setup.bash```
 
 }
 

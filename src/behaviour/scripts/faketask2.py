@@ -10,7 +10,7 @@ def targetbeat():
     
     pub = rospy.Publisher('Targets', target, queue_size=1)
     rospy.init_node("Target_Onboard_Updater", anonymous=True)
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(5)
     time = rospy.get_time()
     while not rospy.is_shutdown():
         target_msg = target()
