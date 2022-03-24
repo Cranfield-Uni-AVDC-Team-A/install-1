@@ -15,7 +15,7 @@ def targetbeat():
     
     pub = rospy.Publisher('Targets', target, queue_size=1)
     rospy.init_node("Target_Onboard_Updater", anonymous=True)
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(5)
     time = rospy.get_time()
     while not rospy.is_shutdown():
         target_msg = target()
@@ -30,7 +30,11 @@ def targetbeat():
         target_msg.confidence = random.random()
         pub.publish(target_msg)
         rate.sleep()
+
 if __name__ == '__main__':
+    while(1):
+        if rospy.has_param("thisdroneID"):
+            break
     try:
         targetbeat()
     except rospy.ROSInterruptException:

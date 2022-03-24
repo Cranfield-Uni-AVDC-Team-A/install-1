@@ -16,13 +16,6 @@
 	
 	<node 
 	pkg="behaviour" 
-	type="param_updater.py" 
-	name="$(anon param_updater)" 
-	output="screen">
-	</node>
-	
-	<node 
-	pkg="behaviour" 
 	type="swarm_state.py" 
 	name="$(anon swarm_state)" 
 	output="screen">
@@ -55,14 +48,7 @@
 	name="$(anon mission_state_monitor)" 
 	output="screen">
 	</node>
-	
-	<node 
-	pkg="behaviour" 
-	type="target_param_updater.py" 
-	name="$(anon target_param_updater)" 
-	output="screen">
-	</node>
-	
+
 	<node 
 	pkg="behaviour" 
 	type="task_allocation.py" 
@@ -74,6 +60,13 @@
 	pkg="behaviour" 
 	type="complete_monitor.py" 
 	name="$(anon complete_monitor)" 
+	output="screen">
+	</node>
+	
+	<node 
+	pkg="behaviour" 
+	type="main_runtime.py" 
+	name="$(anon main_runtime)" 
 	output="screen">
 	</node>
 	

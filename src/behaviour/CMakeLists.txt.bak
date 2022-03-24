@@ -191,12 +191,11 @@ scripts/faketask2.py
 scripts/main_runtime.py
 scripts/task_state_monitor.py
 scripts/task_allocation.py
-scripts/param_clean.py
 scripts/drone_state_monitor.py 
 scripts/stateheartbeat2.py 
 scripts/param_updater.py
 scripts/swarm_state.py 
-scripts/target_param_updater.py
+scripts/complete_monitor.py
 scripts/swarmstateclienttest.py 
 scripts/area_allocation.py
  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

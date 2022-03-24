@@ -14,11 +14,13 @@ import rospy
 global active_list
 
 def targetlistcallback(data):
+    global active_list
     active_list = targetlist()
     active_list = data
     return
 
 def handle_task_comp_req(target_id):
+    targ_id = target_id.a
     lats = rospy.get_param("mission_points_lats")
     lons = rospy.get_param("mission_points_lons")
     alts = rospy.get_param("mission_points_alts")
@@ -28,16 +30,16 @@ def handle_task_comp_req(target_id):
     minlons = min(lons)
     flag_active = 0
     flag_area = 0
-    targid = int(targetlist_msg.targets[i].id)
-    pointid =  int(str(targetlist_msg.targets[i].id).split('.')[1])
     i = 0
     while i < len(active_list.targets):
         try:
-            if active_list.targets[i].id == target_id:
+            if active_list.targets[i].id == targ_id:
                 flag_active = 1
+                print("active")
             if minlats <= active_list.targets[i].lat <= maxlats:
                 if minlons <= active_list.targets[i].lon <= maxlons:
                     flag_area = 1
+                    print("area")
         except:
             pass
         i = i + 1
