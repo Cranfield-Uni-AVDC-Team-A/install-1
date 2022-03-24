@@ -9,26 +9,41 @@ from __future__ import print_function
 import rospy
 from behaviour.msg import targetlist
 from behaviour.msg import target
+from behaviour.msg import members
+from behaviour.msg import drone_state
 from behaviour.msg import task
 import geopy.distance
-
-############################################################################
-distance_thresh = 2     # distance in m that the targets will be amalgamated
-frequency = 5           # frequency that the topic is published
-timeout = 15            # timeout before a "lost" target is removed
-timeout_internal = 0.5
-############################################################################
 
 ############################
 # Global Params
 ############################
 global targetlist_msg
+global memberlist
+global timeout
+global timeout_internal
 global internal_msg
 global flag_busy
 global flag_internal
 
+###############################################################################
+distance_thresh = 2     # distance in m that the targets will be amalgamated
+frequency = 5           # frequency that the topic is published
+timeout = 15            # timeout before a "lost" target is removed
+timeout_internal = 0.5  # timeout before an internal update is ignored
+###############################################################################
+
+flag_busy = 0
+flag_internal = 0
 
 rospy.init_node('TaskUpdater', anonymous=True) 
+
+############################
+# Callbacks
+############################
+def members_callback(data):
+    global memberlist
+    memberlist = data
+    return
 
 def internal_callback(data):
     global internal_msg
@@ -55,7 +70,7 @@ def internal_callback(data):
                 targetlist_msg.targets[i].allocatedid = data.allocatedid
             if not data.search == 0:
                 targetlist_msg.targets[i].search = data.search
-            if not data.clas == 0
+            if not data.clas == 0:
                 targetlist_msg.targets[i].confidence = data.confidence
             break
     flag_internal = 0
@@ -98,10 +113,10 @@ def targets_callback(data):
                 targetlist_msg.targets[i].allocatedid = data.allocatedid
             if not data.search == 0:
                 targetlist_msg.targets[i].search = data.search
-            if not data.clas == 0
+            if not data.clas == 0:
                 targetlist_msg.targets[i].confidence = data.confidence
             current_time = rospy.get_time()
-            if internal_msg.id == targetlist_msg.targets[i].id && (curenttime - internal_msg.messagetime) <= timeout_internal:
+            if internal_msg.id == targetlist_msg.targets[i].id and (curenttime - internal_msg.messagetime) <= timeout_internal:
                 if not internal_msg.detectorid == 0:
                     targetlist_msg.targets[i].detectorid = internal_msg.detectorid
                 if not internal_msg.detectortype == 0:
@@ -116,7 +131,7 @@ def targets_callback(data):
                     targetlist_msg.targets[i].allocatedid = internal_msg.allocatedid
                 if not internal_msg.search == 0:
                     targetlist_msg.targets[i].search = internal_msg.search
-                if not internal_msg.clas == 0
+                if not internal_msg.clas == 0:
                     targetlist_msg.targets[i].confidence = internal_msg.confidence
             break
         coordsnew = (data.lat, data.lon)
@@ -127,14 +142,29 @@ def targets_callback(data):
         if not targetlist_msg.targets[i].detectorid == data.detectorid:
             if targetlist_msg.targets[i].detectortype == 2 and data.detectortpye == 1:
                 break
-            coorddrone = (rospy.get_param("lat_%s"%data.detectorid),rospy.get_param("lon_%s"%data.detectorid))
-            coordtarget = (data.lat,data.lon)
-            distance_current = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000 
-            coorddrone = (rospy.get_param("lat_%s"%targetlist_msg.targets[i].detectorid),rospy.get_param("lon_%s"%targetlist_msg.targets[i].detectorid))
-            coordtarget = (data.lat,data.lon)
-            distance_previous = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000                 
-            if distance_current > distance_previous:
-                break
+            j = 0
+            while j < len(memberlist.drone_states):
+                if memberlist.drone_states[j].drone_id == targetlist_msg.targets[i].detectorid:
+                    detectorstateold = memberlist.drone_states[j]
+                    break
+                j = j + 1
+            j = 0
+            while j < len(memberlist.drone_states):
+                if memberlist.drone_states[j].drone_id == data.detectorid:
+                    detectorstatenew = memberlist.drone_states[j]
+                    break
+                j = j + 1
+            try:
+                coorddrone = (detectorstateold.drone_geometry.lat , detectorstateold.drone_geometry.lon)
+                coordtarget = (data.lat,data.lon)
+                distance_previous = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000 
+                coorddrone = (detectorstatenew.drone_geometry.lat , detectorstatenew.drone_geometry.lon)
+                coordtarget = (data.lat,data.lon)
+                distance_current = (geopy.distance.vincenty(coordsnew, coordsold).km) * 1000
+                if distance_current > distance_previous:
+                    break
+            except:
+                print ("Detector offline")
         if i + 1 == len(targetlist_msg.targets):
             targetlist_msg.targets.append(hb_msg)
             break
@@ -142,11 +172,17 @@ def targets_callback(data):
     flag_busy = 0
     return (targetlist_msg)
 
+############################
+# Main
+############################
+
 rospy.Subscriber("Targets", target, targets_callback)
 rospy.Subscriber("Target_Internal", target, internal_callback)
+rospy.Subscriber("Members", members, members_callback)
 rate = rospy.Rate(frequency)
 
 targetlist_msg = targetlist()
+internal_msg = target()
 while not rospy.is_shutdown():
     while (1):
         i = 0
@@ -157,7 +193,6 @@ while not rospy.is_shutdown():
                     targid = int(targetlist_msg.targets[i].id)
                     pointid =  int(str(targetlist_msg.targets[i].id).split('.')[1])
                     targetlist_msg.targets.remove(targetlist_msg.targets[i])
-                    print(targid, pointid)
                     execute = param_clean(targid, pointid)
                 i = i + 1
             break

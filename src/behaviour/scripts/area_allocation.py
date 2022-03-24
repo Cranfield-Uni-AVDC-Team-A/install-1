@@ -18,7 +18,6 @@ from behaviour.srv import *
 from behaviour.msg import members
 from behaviour.msg import drone_state
 from behaviour.srv import areareq
-from behaviour.msg import swarmstate
 import geopy.distance
 
 
@@ -26,6 +25,7 @@ import geopy.distance
 # Global Params
 ############################
 global memberlist
+global pub
 
 ############################
 # Inits
@@ -41,14 +41,13 @@ def swarm_state_client():
     rospy.wait_for_service('swarm_state')
     swarmreq = rospy.ServiceProxy('swarm_state', swarmstatereq)
     resp = swarmreq(1)
-    return resp.swarmstate.available_track
-
+    return resp
 
 def handle_area_req(a):
     lats = []
     lons = []
-    n_points = swarm_state_client()
-
+    npoints = swarm_state_client()
+    n_points = npoints.a
     #####################################
     # Uncomment this block for final build
     #lats = rospy.get_param("mission_points_lats")
@@ -70,10 +69,10 @@ def handle_area_req(a):
 
     diflat = max(lats) - min(lats)
     diflon = max(lons) - min(lons)
-    try:
+    if not n_points == 0:
         dellon = diflon / n_points
-    except:
-        print("No Trackers available")
+    else:
+        print("None Available")
         return(1)
     dellat = diflat/ 2 # this is a simplification due to the simple shape and size of our area
     # please see the segmenter algorithm for a more complex implementation (ommited here as overkill)
@@ -96,7 +95,7 @@ def handle_area_req(a):
         drone_mode = memberlist.drone_states[i].mode
         if drone_type == 2:
             if drone_mode == 1:
-                available.append(memberlist.drone_states[i].id, memberlist.drone_states[i].drone_geometry.lat, memberlist.drone_states[i].drone_geometry.lon, memberlist.drone_states[i].battery)
+                available.append((memberlist.drone_states[i].drone_id, memberlist.drone_states[i].drone_geometry.lat, memberlist.drone_states[i].drone_geometry.lon, memberlist.drone_states[i].battery))
         i = i + 1
 
     # avialable format: id,lat,lon.bat
@@ -112,7 +111,6 @@ def handle_area_req(a):
             distance = (geopy.distance.vincenty(coordpoint, coorddrone).km) * 1000
             score = 1/distance * available[w][3]    
             diction.append (score)
-            #print (score)
             w = w + 1
         array.append(diction)
         diction = []
@@ -124,31 +122,29 @@ def handle_area_req(a):
         print("No Trackers Available")
         return(1)    
     # Order of the allocation preserved from available
-    try:
-        memory = memberlist.drone_states[available[0][0])].task.task_geometry.lat
-    except:
-        memory = 0
-    try:
-        print (y)
-    except:
-        print("Couldn't get y")
-        return(1)
     i = 0
     try:
         while i < len(y):
-            hb_msg = drone_state(drone_id = meID, task.task_geometry.lat = float(points[y[i]][0]), task.task_geometry.lon = float(points[y[i]][1]), task.task_geometry.alt = 0,  task.allocated = int( y[i]), task.type = 1)
+            hb_msg = drone_state()
+            hb_msg.drone_id = available[i][0]
+            hb_msg.task.task_geometry.lat = float(points[y[i]][0])
+            hb_msg.task.task_geometry.lon = float(points[y[i]][1])
+            hb_msg.task.task_geometry.alt = 0
+            hb_msg.task.allocated = int( y[i])
+            hb_msg.task.type = 1
             i = i + 1
-        rate.sleep()
+            pub.publish(hb_msg)
+            rospy.sleep(0.1)
     except:
         print ("Failed to set Areas")
         return(1)
-    pub.publish(hb_msg)
     return(1)
 
 def area_allocation_server():
+    global pub
     rospy.init_node('area_allocation_server')
     rospy.Subscriber("Members", members, members_callback)
-    pub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1, latch = True)
+    pub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=10, latch = True)
     s = rospy.Service('area_allocation', areareq, handle_area_req)
     rospy.spin()
 
