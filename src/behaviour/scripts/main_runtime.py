@@ -33,6 +33,7 @@ track_check_freq = 2        # Loop rate for the state checking for tracking dron
 # Global Params
 ############################
 global Target_list
+global memberlist
 global unallocated_ids
 
 ############################
@@ -75,7 +76,7 @@ def task_monitoring_client():
 ############################
 # Callback Functions
 ############################
-def targetlistcallback(data):
+def targetlist_callback(data):
     global unallocated_ids
     Target_list = data
     unallocated_ids = []
@@ -86,6 +87,17 @@ def targetlistcallback(data):
                 unallocated_ids.append(data.targets[i].id)
         except:
             pass
+        i = i + 1
+    return
+
+def members_callback(data):
+    global memberlist
+    memberlist = data
+    i = 0
+    while i < len(memberlist.drone_states):
+        if memberlist.drone_states[i].drone_id == meID:
+            meState = memberlist.drone_states[i]
+            break
         i = i + 1
     return
 
@@ -157,7 +169,7 @@ if __name__ == '__main__':
             ##########################
             # Subscribe to the target list.
             ##########################
-            rospy.Subscriber("Targetlist", targetlist, targetlistcallback)
+            rospy.Subscriber("Targetlist", targetlist, targetlist_callback)
             while(1):
                 #################################################
                 # If in monitoring mode with no unallocated tasks

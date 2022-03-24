@@ -4,6 +4,9 @@
 #Dev Note for what Params are used
 #
 
+############################
+# Imports
+############################
 
 from __future__ import print_function
 from scipy.optimize import linear_sum_assignment
@@ -12,9 +15,27 @@ import time
 import sys
 import rospy
 from behaviour.srv import *
+from behaviour.msg import members
+from behaviour.msg import drone_state
 from behaviour.srv import areareq
 from behaviour.msg import swarmstate
 import geopy.distance
+
+
+############################
+# Global Params
+############################
+global memberlist
+
+############################
+# Inits
+############################
+meID = rospy.get_param("thisdroneID")
+
+def members_callback(data):
+    global memberlist
+    memberlist = data
+    return
 
 def swarm_state_client():
     rospy.wait_for_service('swarm_state')
@@ -22,13 +43,12 @@ def swarm_state_client():
     resp = swarmreq(1)
     return resp.swarmstate.available_track
 
-def handle_area_req(a):
 
+def handle_area_req(a):
     lats = []
     lons = []
     n_points = swarm_state_client()
-    #print(n_points)
-    # get the mission items
+
     #####################################
     # Uncomment this block for final build
     #lats = rospy.get_param("mission_points_lats")
@@ -54,6 +74,7 @@ def handle_area_req(a):
         dellon = diflon / n_points
     except:
         print("No Trackers available")
+        return(1)
     dellat = diflat/ 2 # this is a simplification due to the simple shape and size of our area
     # please see the segmenter algorithm for a more complex implementation (ommited here as overkill)
     points = []
@@ -69,14 +90,13 @@ def handle_area_req(a):
     available = []
     costs = []
     num_mon = 0
-    n_drones = rospy.get_param("n_drones")
     i = 0
-    while i < len(n_drones):
-        drone_type = rospy.get_param("drone_type_%s" % n_drones[i])
-        drone_mode = rospy.get_param("drone_mode_%s" % n_drones[i])
+    while i < len(memberlist.drone_states):
+        drone_type = memberlist.drone_states[i].type
+        drone_mode = memberlist.drone_states[i].mode
         if drone_type == 2:
             if drone_mode == 1:
-                available.append((n_drones[i], rospy.get_param("lat_%s"%n_drones[i]), rospy.get_param("lon_%s"%n_drones[i]), rospy.get_param("drone_battery_%s"%n_drones[i]) ))
+                available.append(memberlist.drone_states[i].id, memberlist.drone_states[i].drone_geometry.lat, memberlist.drone_states[i].drone_geometry.lon, memberlist.drone_states[i].battery)
         i = i + 1
 
     # avialable format: id,lat,lon.bat
@@ -102,48 +122,33 @@ def handle_area_req(a):
         x, y = linear_sum_assignment(array)
     except:
         print("No Trackers Available")
-    
+        return(1)    
     # Order of the allocation preserved from available
-    p = 0 
     try:
-        memory = rospy.get_param("tasklat_%s"%available[p][0])
+        memory = memberlist.drone_states[available[0][0])].task.task_geometry.lat
     except:
         memory = 0
     try:
         print (y)
     except:
         print("Couldn't get y")
+        return(1)
+    i = 0
     try:
-        prev_segs = rospy.get_param("previous_segments")
+        while i < len(y):
+            hb_msg = drone_state(drone_id = meID, task.task_geometry.lat = float(points[y[i]][0]), task.task_geometry.lon = float(points[y[i]][1]), task.task_geometry.alt = 0,  task.allocated = int( y[i]), task.type = 1)
+            i = i + 1
+        rate.sleep()
     except:
-        prev_segs = -1
-    current_segs = len(available)
-    rospy.set_param("previous_segments", current_segs)
-    rate = rospy.Rate(1)
-    while(1):
-        i = 0
-        try:
-            print("Trying")
-            while i < len(y):
-                rospy.set_param ("allocated_%s"%available[i][0] ,int( y[i])             )
-                print (rospy.get_param ("allocated_%s"%available[i][0]))
-                rospy.set_param ("tasktype_%s"%available[i][0]  ,1                      )
-                rospy.set_param ("tasklat_%s"%available[i][0]   ,float(points[y[i]][0]) )
-                rospy.set_param ("tasklon_%s"%available[i][0]   ,float(points[y[i]][1]) )
-                rospy.set_param ("taskalt_%s"%available[i][0]   ,0                      )
-                i = i + 1
-            rate.sleep()
-        except:
-            pass
-        print(rospy.get_param("tasklat_%s"%available[i-1][0]) == memory)
-        if not rospy.get_param("tasklat_%s"%available[i-1][0]) == memory:
-            break
-        elif current_segs == prev_segs and rospy.get_param("tasklat_%s"%available[p][0]) == memory:
-            break
+        print ("Failed to set Areas")
+        return(1)
+    pub.publish(hb_msg)
     return(1)
 
 def area_allocation_server():
     rospy.init_node('area_allocation_server')
+    rospy.Subscriber("Members", members, members_callback)
+    pub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1, latch = True)
     s = rospy.Service('area_allocation', areareq, handle_area_req)
     rospy.spin()
 

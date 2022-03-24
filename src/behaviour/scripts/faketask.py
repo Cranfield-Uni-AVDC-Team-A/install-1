@@ -30,6 +30,7 @@ def targetbeat():
         target_msg.confidence = random.random()
         pub.publish(target_msg)
         rate.sleep()
+
 if __name__ == '__main__':
     try:
         targetbeat()
