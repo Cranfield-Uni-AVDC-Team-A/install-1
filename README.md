@@ -36,6 +36,14 @@ Build Steps:
 Config Steps (For when you open a New Terminal): 
 {
 
+If you have restarted your computer, do the bellow two lines additionally:
+
+```sudo sh -c "echo 0 >/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts"```
+
+```sudo service procps restart```
+
+Otherwise only:
+
 ```cd gdp/src/behaviour/scripts && find . -type f -print0 | xargs -0 dos2unix```
 
 ```chmod +x *.py```
@@ -62,7 +70,7 @@ Test Steps (In a New Terminal...):
 
 You should see an output with swarm drone member heartbeats.
 
-If you want the config steps to be added to your .bashrc file so that it loads in every new terminal then use:
+If you want the non-restart config steps to be added to your .bashrc file so that it loads in every new terminal then use:
 In a New Terminal...
 
 ```sudo bash gdp/src/bin/bashappend.sh```

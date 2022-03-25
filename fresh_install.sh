@@ -32,6 +32,7 @@ sudo apt-get -y install ros-melodic-roslaunch
 sudo apt-get -y install dos2unix
 sudo apt-get -y install python-scipy
 sudo apt-get -y install python-geopy
+sudo apt-get -y install ros-melodic-multimaster-fkie
 
 echo "-----------------------"
 echo "Install Complete, please proceed to build steps."

@@ -8,6 +8,13 @@
 	</node>
 	
 	<node 
+	pkg="master_discovery_fkie" 
+	type="master_discovery" 
+	name="$(anon master_discovery)" 
+	output="screen">
+	</node>
+	
+	<node 
 	pkg="behaviour" 
 	type="drone_state_monitor.py" 
 	name="$(anon drone_state_monitor)" 
@@ -61,6 +68,28 @@
 	type="main_runtime.py" 
 	name="$(anon main_runtime)" 
 	output="screen">
-	</node>
+	</node>	
+	
+	<arg name="node_start_delay" default="1.0" /> 
+	<node 
+	pkg="master_sync_fkie" 
+	type="master_sync" 
+	name="$(anon master_sync)" 
+	output="screen">
+        <rosparam>
+            ignore_topics:
+                - '/Heartbeat_Internal'
+                - '/Target_Internal'
+                - '/Targetlist'
+                - '/Members'
+        </rosparam>
+        <rosparam>
+            ignore_services:
+                - '/swarm_state'
+                - '/area_allocation'
+                - '/task_allocation'
+                - '/task_complete_monitor'
+        </rosparam>
+    </node>
 	
 </launch>

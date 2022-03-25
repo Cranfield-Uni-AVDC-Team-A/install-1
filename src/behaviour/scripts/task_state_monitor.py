@@ -45,6 +45,9 @@ def members_callback(data):
     memberlist = data
     return
 
+# Note to self - possible issue where messages might step on one another
+# Not observed, but theoretically possible.
+# Consdier implementing a recieving queue for messages and processing along queue.
 def internal_callback(data):
     global internal_msg
     global flag_internal
