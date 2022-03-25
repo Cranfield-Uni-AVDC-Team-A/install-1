@@ -36,7 +36,7 @@ Build Steps:
 Config Steps (For when you open a New Terminal): 
 {
 
-If you have restarted your computer, do the bellow two lines additionally:
+If you have restarted your computer, do the below two lines additionally:
 
 ```sudo sh -c "echo 0 >/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts"```
 

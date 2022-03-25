@@ -70,7 +70,6 @@ find_package(catkin REQUIRED COMPONENTS
  add_service_files(
    FILES
    swarmstatereq.srv
-   swarmstatereqRESPONSE.srv
    cleanreq.srv
    areareq.srv
    taskreq.srv
