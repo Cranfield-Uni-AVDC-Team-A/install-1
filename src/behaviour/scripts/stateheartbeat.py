@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-###################
-#Dev Note for what Params are used
-#
 
 
 from __future__ import print_function

@@ -67,7 +67,8 @@ def handle_task_req(targetid):
             break
         i = i + 1
         meTarget = target()
-
+    if not meState:
+        return(0)
     if meState.mode == 1 and meState.type == 2:
         targetlat = meTarget.lat
         targetlon = meTarget.lon
@@ -90,6 +91,7 @@ def handle_task_req(targetid):
 
     taskpub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1)
     try:
+        
         hb_msg = drone_state()
         hb_msg.drone_id = winner.drone_id
         hb_msg.task.target_id = targetID
@@ -99,8 +101,9 @@ def handle_task_req(targetid):
         hb_msg.task.type = 2
         hb_msg.mode = 2
         taskpub.publish(hb_msg)
-        targpub = rospy.Publisher('Targets', target, queue_size=1)
+        targpub = rospy.Publisher('Target_Internal', target, queue_size=1)
         trg_msg = target(allocatedid = winner.drone_id)
+        trg_msg.id = targetID
         targpub.publish(trg_msg)
     except:
         return(0)

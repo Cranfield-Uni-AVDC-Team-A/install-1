@@ -216,9 +216,11 @@ if __name__ == '__main__':
                     # Assign Unallocated Task
                     ##########################
                     sucs = task_allocation_client(unallocated_ids[0]) # Sequential
-                    if sucs ==1:
-                        unallocated_ids.remove(unallocated_ids[0])
-                    break
+                    if sucs.a == 1:
+                        try:
+                            unallocated_ids.remove(unallocated_ids[0])
+                        except:
+                            pass
                 #################################################
                 # If in tracking mode
                 #################################################
@@ -232,7 +234,6 @@ if __name__ == '__main__':
                         #########################################
                         # If completed, return to Monitoring Mode
                         #########################################
-                        print (completed.a)
                         if completed.a == 1:
                             track_hb_msg = drone_state(drone_id = meID, mode = 1)
                             state_pub.publish(track_hb_msg)

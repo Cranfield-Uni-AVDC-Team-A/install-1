@@ -35,11 +35,9 @@ def handle_task_comp_req(target_id):
         try:
             if active_list.targets[i].id == targ_id:
                 flag_active = 1
-                print("active")
             if minlats <= active_list.targets[i].lat <= maxlats:
                 if minlons <= active_list.targets[i].lon <= maxlons:
                     flag_area = 1
-                    print("area")
         except:
             pass
         i = i + 1

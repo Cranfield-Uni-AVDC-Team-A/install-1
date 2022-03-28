@@ -82,6 +82,7 @@ def internal_msg_check():
                 if not internal_msg_list[w].task.type == 0:
                     members_msg.drone_states[i].task.type = internal_msg_list[w].task.type
                 internal_msg_list.remove(internal_msg_list[w])
+                w = w - 1
                 break
             i = i + 1
         w = w + 1    

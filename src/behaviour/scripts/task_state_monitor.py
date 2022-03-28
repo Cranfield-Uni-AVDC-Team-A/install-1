@@ -59,18 +59,17 @@ def internal_msg_check():
     msg_list_len = len(internal_msg_list)
     if msg_list_len > 10:
          rospy.logerr("Warning: Internal Target List buffer is s% messages long.", msg_list_len)
-    w = 0
+
     while(1):
         if flag_busy == 0:
             flag_internal = 1
             break
         rospy.sleep(0.01)
+    w = 0
     while w < len(internal_msg_list):
         i = 0
         while i < len(targetlist_msg.targets):
             current_time = rospy.get_time()
-            print (w)
-            print (i)
             if internal_msg_list[w].id == targetlist_msg.targets[i].id and (current_time - internal_msg_list[w].messagetime) <= timeout_internal:
                 if not internal_msg_list[w].detectorid == 0:
                     targetlist_msg.targets[i].detectorid = internal_msg_list[w].detectorid
@@ -89,6 +88,8 @@ def internal_msg_check():
                 if not internal_msg_list[w].clas == 0:
                     targetlist_msg.targets[i].confidence = internal_msg_list[w].confidence
                 internal_msg_list.remove(internal_msg_list[w])
+                w = w -1
+                break
             i = i + 1
         w = w + 1    
     flag_internal = 0
@@ -195,10 +196,7 @@ while not rospy.is_shutdown():
         try:
             while i < len(targetlist_msg.targets):
                 if  current_time - targetlist_msg.targets[i].messagetime >= timeout:
-                    targid = int(targetlist_msg.targets[i].id)
-                    pointid =  int(str(targetlist_msg.targets[i].id).split('.')[1])
                     targetlist_msg.targets.remove(targetlist_msg.targets[i])
-                    execute = param_clean(targid, pointid)
                 i = i + 1
             break
         except:
