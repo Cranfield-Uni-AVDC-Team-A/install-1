@@ -59,7 +59,6 @@ find_package(catkin REQUIRED COMPONENTS
    score.msg
    task.msg
    task_geometry.msg
-   drone_hello.msg
    members.msg
    swarmstate.msg
    target.msg
@@ -70,7 +69,6 @@ find_package(catkin REQUIRED COMPONENTS
  add_service_files(
    FILES
    swarmstatereq.srv
-   swarmstatereqRESPONSE.srv
    cleanreq.srv
    areareq.srv
    taskreq.srv
