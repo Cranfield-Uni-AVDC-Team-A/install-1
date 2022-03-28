@@ -118,5 +118,3 @@ if __name__ == '__main__':
         DRONE_STATE_TEST()
     except rospy.ROSInterruptException:
         pass
-
-

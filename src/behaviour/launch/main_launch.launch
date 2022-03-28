@@ -77,19 +77,16 @@
 	name="$(anon master_sync)" 
 	output="screen">
         <rosparam>
-            ignore_topics:
-                - '/Heartbeat_Internal'
-                - '/Target_Internal'
-                - '/Targetlist'
-                - '/Members'
+            ignore_topics: [/*]
         </rosparam>
         <rosparam>
-            ignore_services:
-                - '/swarm_state'
-                - '/area_allocation'
-                - '/task_allocation'
-                - '/task_complete_monitor'
+            ignore_services: [/*]
         </rosparam>
+		<rosparam>
+            sync_topics: [/Heartbeat_Onboard_Updater/Heartbeats]
+        </rosparam>
+
+            
     </node>
 	
 </launch>

@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-###################
-#Dev Note for what Params are used
-#
 
 
 from __future__ import print_function
@@ -22,6 +19,7 @@ global memberlist
 global timeout
 global timeout_internal
 global internal_msg
+global internal_msg_data
 global flag_busy
 global flag_internal
 
@@ -48,41 +46,59 @@ def members_callback(data):
 # Note to self - possible issue where messages might step on one another
 # Not observed, but theoretically possible.
 # Consdier implementing a recieving queue for messages and processing along queue.
+# Update - Now implemented
+
 def internal_callback(data):
-    global internal_msg
+    global internal_msg_list
+    data.messagetime = rospy.get_time()
+    internal_msg_list.append(data)
+
+def internal_msg_check():
     global flag_internal
-    internal_msg = data
-    internal_msg.messagetime = rospy.get_time()
-    while flag_busy == 1:
-        pass
-    flag_internal = 1
-    i = 0
-    while i < len(targetlist_msg.targets):
-        if targetlist_msg.targets[i].id == data.id:
-            if not data.detectorid == 0:
-                targetlist_msg.targets[i].detectorid = data.detectorid
-            if not data.detectortype == 0:
-                targetlist_msg.targets[i].detectortype = data.detectortype
-            if not data.lat == 0:
-                targetlist_msg.targets[i].lat = data.lat
-            if not data.lon == 0:
-                targetlist_msg.targets[i].lon = data.lon
-            if not data.alt == 0:
-                targetlist_msg.targets[i].alt = data.alt
-            if not data.allocatedid == 0:
-                targetlist_msg.targets[i].allocatedid = data.allocatedid
-            if not data.search == 0:
-                targetlist_msg.targets[i].search = data.search
-            if not data.clas == 0:
-                targetlist_msg.targets[i].confidence = data.confidence
+    msg_list_len = len(internal_msg_list)
+    if msg_list_len > 10:
+         rospy.logerr("Warning: Internal Target List buffer is s% messages long.", msg_list_len)
+    w = 0
+    while(1):
+        if flag_busy == 0:
+            flag_internal = 1
             break
+        rospy.sleep(0.01)
+    while w < len(internal_msg_list):
+        i = 0
+        while i < len(targetlist_msg.targets):
+            current_time = rospy.get_time()
+            if internal_msg_list[w].id == targetlist_msg.targets[i].id and (current_time - internal_msg_list[w].messagetime) <= timeout_internal:
+                if not internal_msg_list[w].detectorid == 0:
+                    targetlist_msg.targets[i].detectorid = internal_msg_list[w].detectorid
+                if not internal_msg_list[w].detectortype == 0:
+                    targetlist_msg.targets[i].detectortype = internal_msg_list[w].detectortype
+                if not internal_msg_list[w].lat == 0:
+                    targetlist_msg.targets[i].lat = internal_msg_list[w].lat
+                if not internal_msg_list[w].lon == 0:
+                    targetlist_msg.targets[i].lon = internal_msg_list[w].lon
+                if not internal_msg_list[w].alt == 0:
+                    targetlist_msg.targets[i].alt = internal_msg_list[w].alt
+                if not internal_msg_list[w].allocatedid == 0:
+                    targetlist_msg.targets[i].allocatedid = internal_msg_list[w].allocatedid
+                if not internal_msg_list[w].search == 0:
+                    targetlist_msg.targets[i].search = internal_msg_list[w].search
+                if not internal_msg_list[w].clas == 0:
+                    targetlist_msg.targets[i].confidence = internal_msg_list[w].confidence
+                internal_msg_list.remove(internal_msg_list[w])
+            i = i + 1
+        w = w + 1    
     flag_internal = 0
     return
 
 def targets_callback(data):
     global targetlist_msg
-    while flag_internal == 1:
-        pass
+    global flag_busy
+    while (1):
+        if flag_internal == 0:
+            flag_busy = 1
+            break
+        rospy.sleep(0.01)
     flag_busy = 1
     hb_msg = target()
     hb_msg.id = data.id
@@ -118,24 +134,6 @@ def targets_callback(data):
                 targetlist_msg.targets[i].search = data.search
             if not data.clas == 0:
                 targetlist_msg.targets[i].confidence = data.confidence
-            current_time = rospy.get_time()
-            if internal_msg.id == targetlist_msg.targets[i].id and (curenttime - internal_msg.messagetime) <= timeout_internal:
-                if not internal_msg.detectorid == 0:
-                    targetlist_msg.targets[i].detectorid = internal_msg.detectorid
-                if not internal_msg.detectortype == 0:
-                    targetlist_msg.targets[i].detectortype = internal_msg.detectortype
-                if not internal_msg.lat == 0:
-                    targetlist_msg.targets[i].lat = internal_msg.lat
-                if not internal_msg.lon == 0:
-                    targetlist_msg.targets[i].lon = internal_msg.lon
-                if not internal_msg.alt == 0:
-                    targetlist_msg.targets[i].alt = internal_msg.alt
-                if not internal_msg.allocatedid == 0:
-                    targetlist_msg.targets[i].allocatedid = internal_msg.allocatedid
-                if not internal_msg.search == 0:
-                    targetlist_msg.targets[i].search = internal_msg.search
-                if not internal_msg.clas == 0:
-                    targetlist_msg.targets[i].confidence = internal_msg.confidence
             break
         coordsnew = (data.lat, data.lon)
         coordsold = (targetlist_msg.targets[i].lat,targetlist_msg.targets[i].lon)
@@ -186,6 +184,7 @@ rate = rospy.Rate(frequency)
 
 targetlist_msg = targetlist()
 internal_msg = target()
+internal_msg_list = []
 while not rospy.is_shutdown():
     while (1):
         i = 0
@@ -201,7 +200,7 @@ while not rospy.is_shutdown():
             break
         except:
             break
+    internal_msg_check()
     rate.sleep()
     pub = rospy.Publisher('Targetlist', targetlist, queue_size=1, latch = True)
     pub.publish(targetlist_msg)
-

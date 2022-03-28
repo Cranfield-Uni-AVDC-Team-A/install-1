@@ -21,6 +21,7 @@ global members_msg
 global timeout
 global internal_timeout
 global internal_msg
+global internal_msg_list
 global flag_busy
 global flag_internal
 
@@ -28,6 +29,7 @@ global flag_internal
 frequency = 5
 timeout = 2
 internal_timeout = 0.5
+timeout_internal = internal_timeout
 ############################################################################
 
 flag_busy = 0
@@ -36,41 +38,51 @@ flag_internal = 0
 rospy.init_node('MemberUpdater', anonymous=True) 
 
 def internal_callback(data):
-    global internal_msg
+    global internal_msg_list
+    data.messagetime = rospy.get_time()
+    internal_msg_list.append(data)
+
+def internal_msg_check():
     global flag_internal
-    internal_msg = data
     blank_geometry = drone_geometry()
     blank_task_geo = task_geometry()
-    # Don't knacker the proper message time (script local only)
-    internal_msg.messagetime = rospy.get_time()
-    while flag_busy == 1:
-        pass
-    flag_internal = 1
-    i = 0
-    while i < len(members_msg.drone_states):
-        if members_msg.drone_states[i].drone_id == data.drone_id:
-            if not data.type == 0:
-                members_msg.drone_states[i].type = data.type
-            if not data.mode == 0:
-                members_msg.drone_states[i].mode = data.mode
-            if not data.drone_geometry == blank_geometry:
-                members_msg.drone_states[i].drone_geometry = data.drone_geometry
-            if not data.battery == 0:
-                members_msg.drone_states[i].battery = data.battery
-            if not data.drone_soh == 0:
-                members_msg.drone_states[i].drone_soh = data.drone_soh
-            if not data.task.task_id == 0:
-                members_msg.drone_states[i].task.task_id = data.task.task_id
-            if not data.task.target_id == 0:
-                members_msg.drone_states[i].task.target_id = data.task.target_id
-            if not data.task.task_geometry == blank_task_geo:
-                members_msg.drone_states[i].task.task_geometry = data.task.task_geometry
-            if not data.task.allocated == 0:
-                members_msg.drone_states[i].task.allocated = data.task.allocated
-            if not data.task.type == 0:
-                members_msg.drone_states[i].task.type = data.task.type
+    msg_list_len = len(internal_msg_list)
+    if msg_list_len > 10:
+         rospy.logerr("Warning: Internal Heartbeat List buffer is s% messages long.", msg_list_len)
+    w = 0
+    while(1):
+        if flag_busy == 0:
+            flag_internal = 1
             break
-        i = i + 1
+        rospy.sleep(0.01)
+    while w < len(internal_msg_list):
+        i = 0
+        while i < len(members_msg.drone_states):
+            current_time = rospy.get_time()
+            if internal_msg_list[w].drone_id == members_msg.drone_states[i].drone_id and (current_time - internal_msg_list[w].messagetime) <= timeout_internal:
+                if not internal_msg_list[w].type == 0:
+                    members_msg.drone_states[i].type = internal_msg_list[w].type
+                if not internal_msg_list[w].mode == 0:
+                    members_msg.drone_states[i].mode = internal_msg_list[w].mode
+                if not internal_msg_list[w].drone_geometry == blank_geometry:
+                    members_msg.drone_states[i].drone_geometry = internal_msg_list[w].drone_geometry
+                if not internal_msg_list[w].battery == 0:
+                    members_msg.drone_states[i].battery = internal_msg_list[w].battery
+                if not internal_msg_list[w].drone_soh == 0:
+                    members_msg.drone_states[i].drone_soh = internal_msg_list[w].drone_soh
+                if not internal_msg_list[w].task.task_id == 0:
+                    members_msg.drone_states[i].task.task_id = internal_msg_list[w].task.task_id
+                if not internal_msg_list[w].task.target_id == 0:
+                    members_msg.drone_states[i].task.target_id = internal_msg_list[w].task.target_id
+                if not internal_msg_list[w].task.task_geometry == blank_task_geo:
+                    members_msg.drone_states[i].task.task_geometry = internal_msg_list[w].task.task_geometry
+                if not internal_msg_list[w].task.allocated == 0:
+                    members_msg.drone_states[i].task.allocated = internal_msg_list[w].task.allocated
+                if not internal_msg_list[w].task.type == 0:
+                    members_msg.drone_states[i].task.type = internal_msg_list[w].task.type
+                internal_msg_list.remove(internal_msg_list[w])
+            i = i + 1
+        w = w + 1    
     flag_internal = 0
     return
 
@@ -162,6 +174,7 @@ rate = rospy.Rate(frequency)
 
 members_msg = members()
 internal_msg = drone_state()
+internal_msg_list = []
 while not rospy.is_shutdown():
     while (1):
         i = 0
@@ -174,11 +187,7 @@ while not rospy.is_shutdown():
             break
         except:
             break
+    internal_msg_check()
     rate.sleep()
     pub = rospy.Publisher('Members', members, queue_size=1, latch = True)
     pub.publish(members_msg)
-
-
-
-
-
