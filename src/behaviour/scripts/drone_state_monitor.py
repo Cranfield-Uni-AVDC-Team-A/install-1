@@ -44,17 +44,18 @@ def internal_callback(data):
 
 def internal_msg_check():
     global flag_internal
+    global internal_msg_list
     blank_geometry = drone_geometry()
     blank_task_geo = task_geometry()
     msg_list_len = len(internal_msg_list)
     if msg_list_len > 10:
          rospy.logerr("Warning: Internal Heartbeat List buffer is s% messages long.", msg_list_len)
-    w = 0
     while(1):
         if flag_busy == 0:
             flag_internal = 1
             break
         rospy.sleep(0.01)
+    w = 0
     while w < len(internal_msg_list):
         i = 0
         while i < len(members_msg.drone_states):
@@ -81,6 +82,7 @@ def internal_msg_check():
                 if not internal_msg_list[w].task.type == 0:
                     members_msg.drone_states[i].task.type = internal_msg_list[w].task.type
                 internal_msg_list.remove(internal_msg_list[w])
+                break
             i = i + 1
         w = w + 1    
     flag_internal = 0
@@ -137,29 +139,6 @@ def heartbeat_callback(data):
                     members_msg.drone_states[i].task.type = data.task.type
                 members_msg.drone_states[i].messagetime = rospy.get_time()
                 flag_found = 1
-            current_time = rospy.get_time()
-            if internal_msg.drone_id == data.drone_id and (current_time - internal_msg.messagetime) <= internal_timeout:
-                int_save = internal_msg        
-                if not int_save.type == 0:
-                    members_msg.drone_states[i].type = int_save.type
-                if not int_save.mode == 0:
-                    members_msg.drone_states[i].mode = int_save.mode
-                if not int_save.drone_geometry == blank_geometry:
-                    members_msg.drone_states[i].drone_geometry = int_save.drone_geometry
-                if not int_save.battery == 0:
-                    members_msg.drone_states[i].battery = int_save.battery
-                if not int_save.drone_soh == 0:
-                    members_msg.drone_states[i].drone_soh = int_save.drone_soh
-                if not int_save.task.task_id == 0:
-                    members_msg.drone_states[i].task.task_id = int_save.task.task_id
-                if not int_save.task.target_id == 0:
-                    members_msg.drone_states[i].task.target_id = int_save.task.target_id
-                if not int_save.task.task_geometry == blank_task_geo:
-                    members_msg.drone_states[i].task.task_geometry = int_save.task.task_geometry
-                if not int_save.task.allocated == 0:
-                    members_msg.drone_states[i].task.allocated = int_save.task.allocated
-                if not int_save.task.type == 0:
-                    members_msg.drone_states[i].task.type = int_save.task.type
             else:
                 if i + 1 == len(members_msg.drone_states) and flag_found == 0:
                     members_msg.drone_states.append(hb_msg)

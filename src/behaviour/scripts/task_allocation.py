@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-###################
-#Dev Note for what Params are used
-#
-
-
 from __future__ import print_function
 from behaviour.srv import taskreq
 import rospy
@@ -25,18 +20,27 @@ settletime = 2
 # Global Params
 ############################
 global memberlist
-global targetlist
+global target_list
 global winner
 global targetID
+global meState
+global meID
 
 def members_callback(data):
     global memberlist
+    global meState
     memberlist = data
+    i = 0
+    while i < len(memberlist.drone_states):
+        if memberlist.drone_states[i].drone_id == meID:
+            meState = memberlist.drone_states[i]
+            break
+        i = i + 1
     return
 
 def targetlist_callback(data):
-    global targetlist
-    targetlist = data
+    global target_list
+    target_list = data
     return
 
 def score_callback(otherscore):
@@ -57,9 +61,9 @@ def handle_task_req(targetid):
             break
         i = i + 1
     i = 0
-    while i < len(targetlist.targets):
-        if targetlist.targets[i].id == targetID:
-            meTarget = targetlist.targets[i]
+    while i < len(target_list.targets):
+        if target_list.targets[i].id == targetID:
+            meTarget = target_list.targets[i]
             break
         i = i + 1
         meTarget = target()
@@ -84,24 +88,28 @@ def handle_task_req(targetid):
         winner.drone_id = meID
     rospy.sleep(settletime) # Wait for the Network to settle
 
-    taskpub = scorepub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1)
-    hb_msg = drone_state()
-    hb_msg.drone_id = winner.drone_id
-    hb_msg.task.target_id = targetID
-    hb_msg.task.task_geometry.lat = targetlat
-    hb_msg.task.task_geometry.lon = targetlon
-    hb_msg.task.task_geometry.alt = targetalt
-    hb_msg.task.type = 2
-    hb_msg.mode = 2
-    taskpub.publish(hb_msg)
-    targpub = rospy.Publisher('Targets', target, queue_size=1)
-    trg_msg = target(allocatedid = winner.drone_id)
-    targpub.publish(trg_msg)
+    taskpub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1)
+    try:
+        hb_msg = drone_state()
+        hb_msg.drone_id = winner.drone_id
+        hb_msg.task.target_id = targetID
+        hb_msg.task.task_geometry.lat = targetlat
+        hb_msg.task.task_geometry.lon = targetlon
+        hb_msg.task.task_geometry.alt = targetalt
+        hb_msg.task.type = 2
+        hb_msg.mode = 2
+        taskpub.publish(hb_msg)
+        targpub = rospy.Publisher('Targets', target, queue_size=1)
+        trg_msg = target(allocatedid = winner.drone_id)
+        targpub.publish(trg_msg)
+    except:
+        return(0)
     return (1)
 
 def task_allocation_server():
     global winner
     rospy.init_node('task_allocation_server')
+    meID = rospy.get_param("thisdroneID")
     winner = score()
     rospy.Subscriber("Scores", score, score_callback)
     rospy.Subscriber("Members", members, members_callback)
@@ -110,6 +118,11 @@ def task_allocation_server():
     rospy.spin()
 
 if __name__ == '__main__':
+    while(1):
+        if rospy.has_param("thisdroneID"):
+            break
+        rospy.sleep(0.01)
+    meID = rospy.get_param("thisdroneID")
     task_allocation_server()
 
     

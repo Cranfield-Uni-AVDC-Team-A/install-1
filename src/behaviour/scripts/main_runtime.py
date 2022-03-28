@@ -59,7 +59,7 @@ def task_allocation_client(tid):
     rospy.wait_for_service('task_allocation')
     taskrequest = rospy.ServiceProxy('task_allocation', taskreq)
     resp = taskrequest(tid)
-    return
+    return(resp)
 
 def task_monitoring_client(id_of_interest):
     rospy.wait_for_service('task_complete_monitor')
@@ -102,6 +102,7 @@ def members_callback(data):
 while(1):
     if rospy.has_param("thisdroneID"):
         break
+    rospy.sleep(0.01)
 rospy.init_node('main')
 meID = rospy.get_param("thisdroneID")
 unallocated_ids = []
@@ -194,20 +195,17 @@ if __name__ == '__main__':
                         # Check to see if mode changed
                         #######################################
                         if meState.mode != 1:
-                            print("mode")
                             break
                         #######################################
                         # Check to see if num_avail changed
                         #######################################
                         num_avail_current = swarm_state_client()
                         if (num_avail_memory.a) != num_avail_current.a:
-                            print(num_avail_current.a)
                             break
                         #######################################
                         # Check for target
                         #######################################           
                         if len(unallocated_ids) > 0:
-                            print("targ")
                             break
                         ratemon.sleep()
                 #################################################
@@ -217,7 +215,9 @@ if __name__ == '__main__':
                     ##########################
                     # Assign Unallocated Task
                     ##########################
-                    task_allocation_client(unallocated_ids[0]) # Sequential
+                    sucs = task_allocation_client(unallocated_ids[0]) # Sequential
+                    if sucs ==1:
+                        unallocated_ids.remove(unallocated_ids[0])
                     break
                 #################################################
                 # If in tracking mode
