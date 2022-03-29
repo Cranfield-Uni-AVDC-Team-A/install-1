@@ -56,6 +56,7 @@ def internal_callback(data):
 def internal_msg_check():
     global flag_internal
     global internal_msg_list
+    global targetlist_msg
     msg_list_len = len(internal_msg_list)
     if msg_list_len > 10:
          rospy.logerr("Warning: Internal Target List buffer is s% messages long.", msg_list_len)
@@ -66,6 +67,7 @@ def internal_msg_check():
             break
         rospy.sleep(0.01)
     w = 0
+    print(internal_msg_list)
     while w < len(internal_msg_list):
         i = 0
         while i < len(targetlist_msg.targets):

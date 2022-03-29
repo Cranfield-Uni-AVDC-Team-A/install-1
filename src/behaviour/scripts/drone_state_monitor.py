@@ -45,6 +45,7 @@ def internal_callback(data):
 def internal_msg_check():
     global flag_internal
     global internal_msg_list
+    global members_msg
     blank_geometry = drone_geometry()
     blank_task_geo = task_geometry()
     msg_list_len = len(internal_msg_list)
@@ -65,6 +66,8 @@ def internal_msg_check():
                     members_msg.drone_states[i].type = internal_msg_list[w].type
                 if not internal_msg_list[w].mode == 0:
                     members_msg.drone_states[i].mode = internal_msg_list[w].mode
+                    if internal_msg_list[w].mode == 0:
+                        members_msg.drone_states[i].task.target_id = 0
                 if not internal_msg_list[w].drone_geometry == blank_geometry:
                     members_msg.drone_states[i].drone_geometry = internal_msg_list[w].drone_geometry
                 if not internal_msg_list[w].battery == 0:
@@ -122,6 +125,8 @@ def heartbeat_callback(data):
                     members_msg.drone_states[i].type = data.type
                 if not data.mode == 0:
                     members_msg.drone_states[i].mode = data.mode
+                    if data.mode == 1:
+                        members_msg.drone_states[i].task.target_id = 0 
                 if not data.drone_geometry == blank_geometry:
                     members_msg.drone_states[i].drone_geometry = data.drone_geometry
                 if not data.battery == 0:
