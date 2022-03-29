@@ -12,7 +12,6 @@ from behaviour.msg import drone_state
 from behaviour.msg import task_geometry
 from behaviour.msg import task
 from behaviour.msg import drone_geometry
-from behaviour.msg import drone_hello
 from behaviour.msg import members
 
 
