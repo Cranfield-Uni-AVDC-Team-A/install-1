@@ -194,6 +194,8 @@ scripts/stateheartbeat2.py
 scripts/swarm_state.py 
 scripts/complete_monitor.py
 scripts/area_allocation.py
+scripts/utils.py
+scripts/partitioner.py
  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

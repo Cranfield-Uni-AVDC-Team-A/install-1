@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-###################
-#Dev Note for what Params are used
-#
-
 ############################
 # Imports
 ############################
@@ -19,6 +15,7 @@ from behaviour.msg import members
 from behaviour.msg import drone_state
 from behaviour.srv import areareq
 import geopy.distance
+from partitioner import compute_partitions_recursive
 
 
 ############################
@@ -50,37 +47,42 @@ def handle_area_req(a):
     n_points = npoints.a
     #####################################
     # Uncomment this block for final build
-    #lats = rospy.get_param("mission_points_lats")
-    #lons = rospy.get_param("mission_points_lons")
-    #alts = rospy.get_param("mission_points_alts")
+    lats = rospy.get_param("mission_points_lats")
+    lons = rospy.get_param("mission_points_lons")
+    alts = rospy.get_param("mission_points_alts")
     #####################################
 
     #####################################
     # Comment out this block when not testing
-    lats.append  (52.06688046891671)
-    lats.append  (52.06670194104023)
-    lats.append  (52.06669981570283)
-    lats.append  (52.06688049328314)
-    lons.append (-0.6336844349831279)
-    lons.append (-0.6336786728635458)
-    lons.append (-0.6329491885016963)
-    lons.append (-0.6329496307356894)
+    #lats.append  (52.06688046891671)
+    #lats.append  (52.06670194104023)
+    #lats.append  (52.06669981570283)
+    #lats.append  (52.06688049328314)
+    #lons.append (-0.6336844349831279)
+    #lons.append (-0.6336786728635458)
+    #lons.append (-0.6329491885016963)
+    #lons.append (-0.6329496307356894)
     #####################################
+    
+    copons = []
+    i = 0
+    while i < len(lats):
+        copons.append((lats[i],lons[i]))
+        i = i + 1
 
-    diflat = max(lats) - min(lats)
-    diflon = max(lons) - min(lons)
-    if not n_points == 0:
-        dellon = diflon / n_points
-    else:
-        print("None Available")
-        return(1)
-    dellat = diflat/ 2 # this is a simplification due to the simple shape and size of our area
-    # please see the segmenter algorithm for a more complex implementation (ommited here as overkill)
+    output = compute_partitions_recursive(copons,n_points)
+    i = 0
     points = []
-    i = 1
-    while i <= n_points:
 
-        points.append(  (min(lats) +  dellat, min(lons) + ((i * dellon) - (dellon / 2)) , i )  )
+    while i < len(output):
+        w = 0
+        x = []
+        y = []
+        while w < len(output[i]):
+            x.append(output[i][w][0])
+            y.append(output[i][w][1])
+            w = w + 1
+        points.append(((sum(x)/len(x)), (sum(y)/len(y))))
         i = i + 1
 
     #########
