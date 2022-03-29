@@ -10,6 +10,7 @@ import rospy
 from behaviour.msg import members
 from behaviour.msg import drone_state
 from behaviour.msg import task_geometry
+from behaviour.msg import targetlist
 from behaviour.msg import task
 from behaviour.msg import drone_geometry
 
@@ -17,6 +18,7 @@ from behaviour.msg import drone_geometry
 # Global Params
 ############################
 global members_msg
+global target_list
 global timeout
 global internal_timeout
 global internal_msg
@@ -35,6 +37,11 @@ flag_busy = 0
 flag_internal = 0
 
 rospy.init_node('MemberUpdater', anonymous=True) 
+
+def targetlist_callback(data):
+    global target_list
+    target_list = data
+    return
 
 def internal_callback(data):
     global internal_msg_list
@@ -113,7 +120,7 @@ def heartbeat_callback(data):
     hb_msg.task.allocated = data.task.allocated
     hb_msg.task.type = data.task.type
     hb_msg.messagetime = rospy.get_time()
-
+    confl_list = []
     if not members_msg.drone_states:
         members_msg.drone_states.append(hb_msg)
     else:
@@ -134,6 +141,7 @@ def heartbeat_callback(data):
                     members_msg.drone_states[i].task.task_id = data.task.task_id
                 if not data.task.target_id == 0:
                     members_msg.drone_states[i].task.target_id = data.task.target_id
+                confl_list.append(members_msg.drone_states[i].task.target_id)
                 if not data.task.task_geometry == blank_task_geo:
                     members_msg.drone_states[i].task.task_geometry = data.task.task_geometry
                 if not data.task.allocated == 0:
@@ -147,10 +155,35 @@ def heartbeat_callback(data):
                     members_msg.drone_states.append(hb_msg)
                     break
             i = i + 1
+    try:
+        while confl_list[0]:
+            flag_deconf = 0
+            testnum = confl_list[0]
+            confl_list.remove(confl_list[0])
+            if testnum in confl_list:
+                i = 0
+                conf_ids = []
+                while i < len(members_msg.drone_states):
+                    if testnum == members_msg.drone_states[i].task.target_id:
+                        w = 0
+                        while w < len(target_list):
+                            if testnum == target_list.targets[w].id:
+                                if not target_list.targets[w].allocatedid == members_msg.drone_states[i].drone_id:
+                                    members_msg.drone_states[i].task.target_id = 0
+                                    members_msg.drone_states[i].mode = 1
+                                    flag_deconf = 1
+                                    break
+                            w = w + 1
+                    if flag_deconf == 1:
+                        break
+                    i = i + 1
+    except:
+        pass
     flag_busy = 0
     return (members_msg)
 
 rospy.Subscriber("Heartbeats", drone_state, heartbeat_callback)
+rospy.Subscriber("Targetlist", targetlist, targetlist_callback)
 rospy.Subscriber("Heartbeat_Internal", drone_state, internal_callback)
 rate = rospy.Rate(frequency)
 
