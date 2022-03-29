@@ -144,7 +144,7 @@ def area_allocation_server():
     global pub
     rospy.init_node('area_allocation_server')
     rospy.Subscriber("Members", members, members_callback)
-    pub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=10, latch = True)
+    pub = rospy.Publisher('Heartbeat_Internal', drone_state, queue_size=1)
     s = rospy.Service('area_allocation', areareq, handle_area_req)
     rospy.spin()
 

@@ -15,7 +15,6 @@ global active_list
 
 def targetlistcallback(data):
     global active_list
-    active_list = targetlist()
     active_list = data
     return
 

@@ -19,7 +19,7 @@ from behaviour.msg import members
 
 droneID = 1
 droneTYPE = 2
-frequency = 1
+frequency = 5
 
 #######################################
 # Drone wont activate until param

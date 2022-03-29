@@ -84,7 +84,7 @@ def handle_task_req(targetid):
         score_msg.drone_id = meID
         score_msg.task_id = targetID
         score_msg.score = myscore
-        scorepub = rospy.Publisher('Scores', score, queue_size=8, latch = True)
+        scorepub = rospy.Publisher('Scores', score, queue_size=1, latch = True)
         scorepub.publish(score_msg)
         winner.drone_id = meID
     rospy.sleep(settletime) # Wait for the Network to settle
@@ -101,6 +101,7 @@ def handle_task_req(targetid):
         hb_msg.task.type = 2
         hb_msg.mode = 2
         taskpub.publish(hb_msg)
+
         targpub = rospy.Publisher('Target_Internal', target, queue_size=1)
         trg_msg = target(allocatedid = winner.drone_id)
         trg_msg.id = targetID

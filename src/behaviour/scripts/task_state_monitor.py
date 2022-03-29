@@ -139,6 +139,8 @@ def targets_callback(data):
                 targetlist_msg.targets[i].search = data.search
             if not data.clas == 0:
                 targetlist_msg.targets[i].confidence = data.confidence
+            timenow = rospy.get_time()
+            targetlist_msg.targets[i].messagetime = timenow
             break
         coordsnew = (data.lat, data.lon)
         coordsold = (targetlist_msg.targets[i].lat,targetlist_msg.targets[i].lon)
@@ -175,6 +177,14 @@ def targets_callback(data):
             targetlist_msg.targets.append(hb_msg)
             break
         i = i + 1
+    i = 0
+    while i < len(memberlist.drone_states):
+        w = 0
+        while w < len(targetlist_msg.targets):
+            if memberlist.drone_states[i].task.target_id == targetlist_msg.targets[w].id:
+                targetlist_msg.targets[w].allocatedid = memberlist.drone_states[i].drone_id
+            w = w + 1
+        i = i + 1
     flag_busy = 0
     return (targetlist_msg)
 
@@ -203,6 +213,6 @@ while not rospy.is_shutdown():
         except:
             break
     internal_msg_check()
-    rate.sleep()
     pub = rospy.Publisher('Targetlist', targetlist, queue_size=1, latch = True)
     pub.publish(targetlist_msg)
+    rate.sleep()

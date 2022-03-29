@@ -52,7 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
  add_message_files(
    FILES
-
+   command.msg
    drone_geometry.msg
    drone_state.msg
    mission.msg

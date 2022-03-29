@@ -28,7 +28,7 @@ global flag_internal
 ############################################################################
 frequency = 5
 timeout = 2
-internal_timeout = 0.5
+internal_timeout = 1
 timeout_internal = internal_timeout
 ############################################################################
 
@@ -125,8 +125,6 @@ def heartbeat_callback(data):
                     members_msg.drone_states[i].type = data.type
                 if not data.mode == 0:
                     members_msg.drone_states[i].mode = data.mode
-                    if data.mode == 1:
-                        members_msg.drone_states[i].task.target_id = 0 
                 if not data.drone_geometry == blank_geometry:
                     members_msg.drone_states[i].drone_geometry = data.drone_geometry
                 if not data.battery == 0:
@@ -173,6 +171,6 @@ while not rospy.is_shutdown():
         except:
             break
     internal_msg_check()
-    rate.sleep()
     pub = rospy.Publisher('Members', members, queue_size=1, latch = True)
     pub.publish(members_msg)
+    rate.sleep()
