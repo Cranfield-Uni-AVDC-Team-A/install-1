@@ -24,7 +24,7 @@ global flag_busy
 global flag_internal
 
 ###############################################################################
-distance_thresh = 2     # distance in m that the targets will be amalgamated
+distance_thresh = 5     # distance in m that the targets will be amalgamated
 frequency = 5           # frequency that the topic is published
 timeout = 15            # timeout before a "lost" target is removed
 timeout_internal = 0.5  # timeout before an internal update is ignored
