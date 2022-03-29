@@ -67,7 +67,6 @@ def internal_msg_check():
             break
         rospy.sleep(0.01)
     w = 0
-    print(internal_msg_list)
     while w < len(internal_msg_list):
         i = 0
         while i < len(targetlist_msg.targets):
