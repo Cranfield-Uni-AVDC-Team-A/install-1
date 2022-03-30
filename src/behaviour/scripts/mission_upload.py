@@ -11,8 +11,8 @@ def missionupload():
     rospy.init_node("Fake_Mission", anonymous=True)
     mission_msg = mission()
     mission_msg.npoints = 4
-    mission_msg.lat = [52.06741363239274,52.06749425153649,52.06722501345044,52.06713526706122]
-    mission_msg.lon = [-0.6303178968537395,-0.6298675502010838,-0.6297190842715281,-0.6301842775174009]
+    mission_msg.lat = [52.066176,52.066199,52.066131,52.066129]
+    mission_msg.lon = [-0.629761,-0.629542,-0.629526,-0.629759]
     mission_msg.alt = [10, 10, 15, 5]
     pub.publish(mission_msg)
 

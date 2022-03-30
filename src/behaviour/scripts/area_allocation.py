@@ -142,7 +142,7 @@ def handle_area_req(a):
             hb_msg.drone_id = available[i][0]
             hb_msg.task.task_geometry.lat = float(points[y[i]][0])
             hb_msg.task.task_geometry.lon = float(points[y[i]][1])
-            hb_msg.task.task_geometry.alt = 0
+            hb_msg.task.task_geometry.alt = 3
             hb_msg.task.allocated = int( y[i])
             hb_msg.task.type = 1
             i = i + 1
