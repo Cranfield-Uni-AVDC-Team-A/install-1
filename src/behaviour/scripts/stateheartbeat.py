@@ -78,10 +78,6 @@ def DRONE_STATE_TEST():
                 hb_msg.drone_geometry = meState.drone_geometry
             else:
                 hb_msg.drone_geometry = blank_geometry
-            # Below line is for testing
-            hb_msg.drone_geometry.lat = 52.066861
-            # Below line is for testing
-            hb_msg.drone_geometry.lon = -0.633621
             if not meState.task.task_id == 0:
                 hb_msg.task.task_id = meState.task.task_id
             else:

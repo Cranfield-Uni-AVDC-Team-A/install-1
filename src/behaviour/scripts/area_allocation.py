@@ -23,6 +23,8 @@ from partitioner import compute_partitions_recursive
 ############################
 global memberlist
 global pub
+global timetaken_start
+global timetaken_end
 
 ############################
 # Inits
@@ -41,6 +43,9 @@ def swarm_state_client():
     return resp
 
 def handle_area_req(a):
+    global timetaken_start
+    timetaken_start = rospy.get_time()
+    global timetaken_end
     lats = []
     lons = []
     npoints = swarm_state_client()
@@ -119,12 +124,18 @@ def handle_area_req(a):
         i = i +1
     array = np.array(array)
     try:
+        
         x, y = linear_sum_assignment(array)
+        timetaken_end = rospy.get_time()
     except:
         print("No Trackers Available")
         return(1)    
     # Order of the allocation preserved from available
     i = 0
+    time_taken = timetaken_end - timetaken_start
+    
+    print("The time taken was:")
+    print(time_taken)
     try:
         while i < len(y):
             hb_msg = drone_state()

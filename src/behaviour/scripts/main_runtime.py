@@ -146,11 +146,14 @@ if __name__ == '__main__':
                 #######################################
                 # Calculate Area centre
                 #######################################
+                lats = rospy.get_param(mission_points_lats)
+                lons = rospy.get_param(mission_points_lons)
                 diflat = max(lats) - min(lats)
                 diflon = max(lons) - min(lons)
                 monlat = (diflat/ 2) + min(lats)
                 monlon = (diflon/ 2) + min(lons)
                 mon_hb_msg = drone_state()
+                mon_hb_msg.drone_id = meID
                 mon_hb_msg.task.allocated = 1
                 mon_hb_msg.task.type = 1
                 mon_hb_msg.task.task_geometry.lat = monlat

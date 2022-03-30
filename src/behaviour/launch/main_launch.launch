@@ -76,15 +76,6 @@
 	type="master_sync" 
 	name="$(anon master_sync)" 
 	output="screen">
-        <rosparam>
-            ignore_topics: [/*]
-        </rosparam>
-        <rosparam>
-            ignore_services: [/*]
-        </rosparam>
-		<rosparam>
-            sync_topics: [/Heartbeat_Onboard_Updater/Heartbeats]
-        </rosparam>
 
             
     </node>
